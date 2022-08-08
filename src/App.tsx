@@ -11,7 +11,7 @@ import './style/dark.scss';
 import { useSelector } from 'react-redux';
 
 function App() {
-    const darkmode = useSelector((state) => state.darkModeReducer.darkMode);
+    const darkmode = useSelector((state: object) => state.darkModeReducer.darkMode);
 
     const currentUser = useSelector((state) => state.authReducer.currentUser);
 

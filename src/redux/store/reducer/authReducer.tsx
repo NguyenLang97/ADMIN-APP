@@ -1,10 +1,15 @@
 import { LOGIN, LOGOUT } from '../action/authAction';
 
 const INITIAL_STATE = {
-    currentUser: JSON.parse(localStorage.getItem('user')) || null,
+    currentUser: JSON.parse(localStorage.getItem('user') as string) || null,
 };
 
-const authReducer = (state = INITIAL_STATE, action) => {
+interface actionProps {
+    type: string;
+    payload: string;
+}
+
+const authReducer = (state = INITIAL_STATE, action: actionProps) => {
     switch (action.type) {
         case LOGIN: {
             return {

@@ -19,7 +19,7 @@ import HomeSharpIcon from '@mui/icons-material/HomeSharp';
 
 const Sidebar = () => {
     const dispatch = useDispatch();
-    const darkmode = useSelector<unknown, | any>((state) => state.darkModeReducer.darkMode);
+    const darkmode = useSelector<unknown | any>((state) => state.darkModeReducer.darkMode);
     const handleLogout = () => {
         dispatch(authLogout(null));
         console.log('dang xuat');
@@ -72,7 +72,7 @@ const Sidebar = () => {
                         <AccountCircleOutlinedIcon className="icon" />
                     </li>
                     <li onClick={handleLogout}>
-                        <span >Logout</span>
+                        <span>Logout</span>
                         <ExitToAppIcon className="icon" />
                     </li>
                 </ul>

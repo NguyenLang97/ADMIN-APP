@@ -6,13 +6,26 @@ import AccountBalanceWalletOutlinedIcon from '@mui/icons-material/AccountBalance
 import ShoppingCartOutlinedIcon from '@mui/icons-material/ShoppingCartOutlined';
 import MonetizationOnOutlinedIcon from '@mui/icons-material/MonetizationOnOutlined';
 import { useEffect, useState } from 'react';
-import { collection, query, where, getDocs } from 'firebase/firestore';
+import { collection, query, where, getDocs, CollectionReference, DocumentData } from 'firebase/firestore';
 import { db } from '../../firebase';
 
-const Widget = ({ type }) => {
+interface WidgetProps {
+    type: string;
+}
+
+const Widget = ({ type }: WidgetProps) => {
     const [amount, setAmount] = useState(null);
     const [diff, setDiff] = useState(null);
-    let data;
+
+    interface dataDefault {
+        title: string;
+        isMoney?: boolean;
+        link: string;
+        query?: string;
+        icon: JSX.Element;
+    }
+
+    let data: dataDefault;
 
     switch (type) {
         case 'user':
@@ -113,6 +126,7 @@ const Widget = ({ type }) => {
 
     return (
         <div className="widget">
+            <i></i>
             <div className="left">
                 <span className="title">{data.title}</span>
                 <span className="counter">
