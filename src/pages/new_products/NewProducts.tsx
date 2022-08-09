@@ -15,16 +15,19 @@ const NewProducts = () => {
     const [img, setImg] = useState({});
     const [per, setPerc] = useState<null | number>(null);
     const [error, setError] = useState(false);
+    const [loading, setLoading] = useState()
     const navigate = useNavigate();
     console.log(file);
 
     useEffect(() => {
         const uploadFile = () => {
             const name = file && new Date().getTime() + file.name;
-
+            
             console.log(name);
             const storageRef = file && ref(storage, file.name);
             const uploadTask = storageRef && file && uploadBytesResumable(storageRef, file);
+            console.log('dang load');
+            
 
             uploadTask &&
                 uploadTask.on(
@@ -50,6 +53,8 @@ const NewProducts = () => {
                     () => {
                         getDownloadURL(uploadTask.snapshot.ref).then((downloadURL) => {
                             setImg((prev) => ({ ...prev, img: downloadURL }));
+                            console.log('load xong');
+                            
                         });
                     }
                 );
@@ -96,6 +101,7 @@ const NewProducts = () => {
                 <div className="top">
                     <h1>Add New Products</h1>
                 </div>
+
                 <div className="bottom">
                     <div className="left">
                         <img

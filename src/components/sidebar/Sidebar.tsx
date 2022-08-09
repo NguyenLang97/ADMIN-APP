@@ -16,12 +16,13 @@ import { useSelector, useDispatch } from 'react-redux';
 import { handleLight, handleDark } from '../../redux/store/action/darkModeAction';
 import { authLogout } from '../../redux/store/action/authAction';
 import HomeSharpIcon from '@mui/icons-material/HomeSharp';
+import { string } from 'yup';
 
 const Sidebar = () => {
     const dispatch = useDispatch();
     const darkmode = useSelector<unknown | any>((state) => state.darkModeReducer.darkMode);
     const handleLogout = () => {
-        dispatch(authLogout(null));
+        dispatch(authLogout(''));
         console.log('dang xuat');
     };
     return (
@@ -78,8 +79,8 @@ const Sidebar = () => {
                 </ul>
             </div>
             <div className="bottom">
-                <div className="colorOption" onClick={() => dispatch(handleLight(false))}></div>
-                <div className="colorOption" onClick={() => dispatch(handleDark(true))}></div>
+                <div className="colorOption" onClick={() => dispatch(handleLight('false'))}></div>
+                <div className="colorOption" onClick={() => dispatch(handleDark('true'))}></div>
             </div>
         </div>
     );

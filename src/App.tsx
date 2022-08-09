@@ -9,13 +9,26 @@ import NewProducts from './pages/new_products/NewProducts';
 import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
 import './style/dark.scss';
 import { useSelector } from 'react-redux';
+import { boolean } from 'yup';
+import {  ReactElement } from 'react';
 
+interface RootState {
+    darkModeReducer: {
+        darkMode: boolean;
+    };
+    authReducer: {
+        currentUser: boolean;
+    };
+}
 function App() {
-    const darkmode = useSelector((state: object) => state.darkModeReducer.darkMode);
+    const darkmode = useSelector((state: RootState) => state.darkModeReducer.darkMode);
+    const currentUser = useSelector((state: RootState) => state.authReducer.currentUser);
 
-    const currentUser = useSelector((state) => state.authReducer.currentUser);
+    interface childrenProps {
+        children: ReactElement;
+    }
 
-    const RequireAuth = ({ children }) => {
+    const RequireAuth = ({ children }: childrenProps) => {
         return currentUser ? children : <Navigate to="/login" />;
     };
 
