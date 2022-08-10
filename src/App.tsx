@@ -9,8 +9,7 @@ import NewProducts from './pages/new_products/NewProducts';
 import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
 import './style/dark.scss';
 import { useSelector } from 'react-redux';
-import { boolean } from 'yup';
-import {  ReactElement } from 'react';
+import { ReactElement } from 'react';
 
 interface RootState {
     darkModeReducer: {
@@ -20,16 +19,16 @@ interface RootState {
         currentUser: boolean;
     };
 }
-function App() {
-    const darkmode = useSelector((state: RootState) => state.darkModeReducer.darkMode);
-    const currentUser = useSelector((state: RootState) => state.authReducer.currentUser);
+function App () {
+  const darkmode = useSelector((state: RootState) => state.darkModeReducer.darkMode);
+  const currentUser = useSelector((state: RootState) => state.authReducer.currentUser);
 
     interface childrenProps {
         children: ReactElement;
     }
 
     const RequireAuth = ({ children }: childrenProps) => {
-        return currentUser ? children : <Navigate to="/login" />;
+      return currentUser ? children : <Navigate to="/login" />;
     };
 
     return (

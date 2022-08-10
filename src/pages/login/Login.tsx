@@ -5,15 +5,14 @@ import { auth } from '../../firebase';
 import { useNavigate } from 'react-router-dom';
 import { authLogin } from '../../redux/store/action/authAction';
 import { useSelector, useDispatch } from 'react-redux/es/exports';
-import { FieldValues, SubmitHandler, useForm } from 'react-hook-form';
-import { string } from 'yup/lib/locale';
+import { SubmitHandler, useForm } from 'react-hook-form';
 
 const Login = () => {
-    const [error, setError] = useState(false);
-    // const [email, setEmail] = useState('');
-    // const [password, setPassword] = useState('');
-    const navigate = useNavigate();
-    const dispatch = useDispatch();
+  const [error, setError] = useState(false);
+  // const [email, setEmail] = useState('');
+  // const [password, setPassword] = useState('');
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
     interface RootState {
         authReducer: boolean;
     }
@@ -25,28 +24,29 @@ const Login = () => {
     const state: any = useSelector<RootState>((state) => state.authReducer);
 
     const handleLogin: SubmitHandler<FormValues> = async (data) => {
-        console.log(data);
-        // e.preventDefault();
-        await signInWithEmailAndPassword(auth, data.email, data.password)
-            .then((userCredential) => {
-                const user = userCredential.user;
-                console.log(user);
-                
-                dispatch(authLogin(user));
-                navigate('/');
-            })
-            .catch((error) => {
-                setError(true);
-            });
+      console.log(data);
+      // e.preventDefault();
+      await signInWithEmailAndPassword(auth, data.email, data.password)
+        .then((userCredential) => {
+          const user = userCredential.user;
+          console.log(user);
+
+          dispatch(authLogin(user));
+          navigate('/');
+        })
+        .catch((error) => {
+          console.log(error);
+          setError(true);
+        });
     };
     useEffect(() => {
-        localStorage.setItem('user', JSON.stringify(state.currentUser));
+      localStorage.setItem('user', JSON.stringify(state.currentUser));
     }, [state.currentUser]);
 
     const {
-        register,
-        handleSubmit,
-        formState: { errors },
+      register,
+      handleSubmit,
+      formState: { errors }
     } = useForm<FormValues>();
 
     return (
@@ -59,7 +59,7 @@ const Login = () => {
                     placeholder="Email"
                     // onChange={(e) => setEmail(e.target.value)}
                     {...register('email', {
-                        required: 'Vui lòng nhập email',
+                      required: 'Vui lòng nhập email'
                     })}
                 />
                 {errors.email && <p className="messages">{errors.email.message}</p>}
@@ -69,7 +69,7 @@ const Login = () => {
                     placeholder="Password"
                     // onChange={(e) => setPassword(e.target.value)}
                     {...register('password', {
-                        required: 'Vui lòng nhập mật khẩu',
+                      required: 'Vui lòng nhập mật khẩu'
                     })}
                 />
                 {errors.password && <p className="messages">{errors.password.message}</p>}

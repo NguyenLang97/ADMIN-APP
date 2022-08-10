@@ -6,7 +6,7 @@ import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 import KeyboardArrowUpOutlinedIcon from '@mui/icons-material/KeyboardArrowUpOutlined';
 
 const Featured = () => {
-    return (
+  return (
         <div className="featured">
             <div className="top">
                 <h1 className="title">Total Revenue</h1>
@@ -46,7 +46,7 @@ const Featured = () => {
                 </div>
             </div>
         </div>
-    );
+  );
 };
 
 export default Featured;

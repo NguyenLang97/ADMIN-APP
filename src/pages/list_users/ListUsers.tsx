@@ -4,7 +4,7 @@ import Navbar from '../../components/navbar/Navbar';
 import DatatableUser from '../../components/datatable_users/DatatableUsers';
 
 const ListUsers = () => {
-    return (
+  return (
         <div className="list">
             <Sidebar />
             <div className="listContainer">
@@ -12,7 +12,7 @@ const ListUsers = () => {
                 <DatatableUser />
             </div>
         </div>
-    );
+  );
 };
 
 export default ListUsers;

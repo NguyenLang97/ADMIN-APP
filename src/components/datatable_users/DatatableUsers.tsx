@@ -1,13 +1,13 @@
-import './datatableusers.scss';
-import { DataGrid } from '@mui/x-data-grid';
-import { userColumns, userRows } from '../../datatablesource';
-import { Link } from 'react-router-dom';
-import { useEffect, useState } from 'react';
-import { collection, getDocs, deleteDoc, doc, onSnapshot } from 'firebase/firestore';
-import { db } from '../../firebase';
+import './datatableusers.scss'
+import { DataGrid } from '@mui/x-data-grid'
+import { userColumns } from '../../datatablesource'
+import { Link } from 'react-router-dom'
+import { useEffect, useState } from 'react'
+import { collection, deleteDoc, doc, onSnapshot } from 'firebase/firestore'
+import { db } from '../../firebase'
 
 const Datatable = () => {
-    const [data, setData] = useState([]);
+    const [data, setData] = useState([])
 
     useEffect(() => {
         // const fetchData = async () => {
@@ -29,30 +29,39 @@ const Datatable = () => {
         const unsub = onSnapshot(
             collection(db, 'users'),
             (snapShot) => {
-                let list: any = [];
+                const list: any = []
                 snapShot.docs.forEach((doc) => {
-                    list.push({ id: doc.id, ...doc.data() });
-                });
-                setData(list);
+                    list.push({ id: doc.id, ...doc.data() })
+                })
+                setData(list)
             },
             (error) => {
-                console.log(error);
+                console.log(error)
             }
-        );
+        )
 
         return () => {
-            unsub();
-        };
-    }, []);
+            unsub()
+        }
+    }, [])
 
     const handleDelete = async (id: any) => {
         try {
-            await deleteDoc(doc(db, 'users', id));
-            setData(data.filter((item: any) => item.id !== id));
+            await deleteDoc(doc(db, 'users', id))
+            setData(data.filter((item: any) => item.id !== id))
         } catch (err) {
-            console.log(err);
+            console.log(err)
         }
-    };
+    }
+    const handleView = async (id: any) => {
+        try {
+            await deleteDoc(doc(db, 'users', id))
+            setData(data.filter((item: any) => item.id !== id))
+        } catch (err) {
+            console.log(err)
+        }
+    }
+    
 
     const actionColumn = [
         {
@@ -63,16 +72,16 @@ const Datatable = () => {
                 return (
                     <div className="cellAction">
                         <Link to="/users/test" style={{ textDecoration: 'none' }}>
-                            <div className="viewButton">View</div>
+                            <div className="viewButton" onClick={() => handleView(params.row.id)}>View</div>
                         </Link>
                         <div className="deleteButton" onClick={() => handleDelete(params.row.id)}>
                             Delete
                         </div>
                     </div>
-                );
+                )
             },
         },
-    ];
+    ]
     return (
         <div className="datatable">
             <div className="datatableTitle">
@@ -81,16 +90,9 @@ const Datatable = () => {
                     Add New
                 </Link>
             </div>
-            <DataGrid
-                className="datagrid"
-                rows={data}
-                columns={userColumns.concat(actionColumn)}
-                pageSize={5}
-                rowsPerPageOptions={[5]}
-                checkboxSelection
-            />
+            <DataGrid className="datagrid" rows={data} columns={userColumns.concat(actionColumn)} pageSize={5} rowsPerPageOptions={[5]} checkboxSelection />
         </div>
-    );
-};
+    )
+}
 
-export default Datatable;
+export default Datatable

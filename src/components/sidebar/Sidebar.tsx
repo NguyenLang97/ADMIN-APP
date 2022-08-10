@@ -1,31 +1,25 @@
-import './sidebar.scss';
-import DashboardIcon from '@mui/icons-material/Dashboard';
-import PersonOutlineIcon from '@mui/icons-material/PersonOutline';
-import LocalShippingIcon from '@mui/icons-material/LocalShipping';
-import CreditCardIcon from '@mui/icons-material/CreditCard';
-import StoreIcon from '@mui/icons-material/Store';
-import InsertChartIcon from '@mui/icons-material/InsertChart';
-import ExitToAppIcon from '@mui/icons-material/ExitToApp';
-import NotificationsNoneIcon from '@mui/icons-material/NotificationsNone';
-import SettingsSystemDaydreamOutlinedIcon from '@mui/icons-material/SettingsSystemDaydreamOutlined';
-import PsychologyOutlinedIcon from '@mui/icons-material/PsychologyOutlined';
 import AccountCircleOutlinedIcon from '@mui/icons-material/AccountCircleOutlined';
 import CategoryRoundedIcon from '@mui/icons-material/CategoryRounded';
-import { Link } from 'react-router-dom';
-import { useSelector, useDispatch } from 'react-redux';
-import { handleLight, handleDark } from '../../redux/store/action/darkModeAction';
-import { authLogout } from '../../redux/store/action/authAction';
+import CreditCardIcon from '@mui/icons-material/CreditCard';
+import ExitToAppIcon from '@mui/icons-material/ExitToApp';
 import HomeSharpIcon from '@mui/icons-material/HomeSharp';
-import { string } from 'yup';
+import LocalShippingIcon from '@mui/icons-material/LocalShipping';
+import NotificationsNoneIcon from '@mui/icons-material/NotificationsNone';
+import PersonOutlineIcon from '@mui/icons-material/PersonOutline';
+import { useDispatch } from 'react-redux';
+import { Link } from 'react-router-dom';
+import { authLogout } from '../../redux/store/action/authAction';
+import { handleDark, handleLight } from '../../redux/store/action/darkModeAction';
+import './sidebar.scss';
 
 const Sidebar = () => {
-    const dispatch = useDispatch();
-    const darkmode = useSelector<unknown | any>((state) => state.darkModeReducer.darkMode);
-    const handleLogout = () => {
-        dispatch(authLogout(''));
-        console.log('dang xuat');
-    };
-    return (
+  const dispatch = useDispatch();
+  //   const darkmode = useSelector<unknown | any>((state) => state.darkModeReducer.darkMode);
+  const handleLogout = () => {
+    dispatch(authLogout(''));
+    console.log('dang xuat');
+  };
+  return (
         <div className="sidebar">
             <div className="top">
                 <Link to="/" style={{ textDecoration: 'none' }}>
@@ -83,7 +77,7 @@ const Sidebar = () => {
                 <div className="colorOption" onClick={() => dispatch(handleDark('true'))}></div>
             </div>
         </div>
-    );
+  );
 };
 
 export default Sidebar;

@@ -1,22 +1,17 @@
 import './navbar.scss';
 import SearchOutlinedIcon from '@mui/icons-material/SearchOutlined';
 import LanguageOutlinedIcon from '@mui/icons-material/LanguageOutlined';
-import SettingsApplicationsIcon from '@mui/icons-material/SettingsApplications';
-import SettingsIcon from '@mui/icons-material/Settings';
 import DarkModeOutlinedIcon from '@mui/icons-material/DarkModeOutlined';
-import FullscreenExitOutlinedIcon from '@mui/icons-material/FullscreenExitOutlined';
 import NotificationsNoneOutlinedIcon from '@mui/icons-material/NotificationsNoneOutlined';
-import ChatBubbleOutlineOutlinedIcon from '@mui/icons-material/ChatBubbleOutlineOutlined';
-import ListOutlinedIcon from '@mui/icons-material/ListOutlined';
-import { useSelector, useDispatch } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import { handleToggle } from '../../redux/store/action/darkModeAction';
-import MenuIcon from '@mui/icons-material/Menu';
+// import MenuIcon from '@mui/icons-material/Menu';
 import EmailOutlinedIcon from '@mui/icons-material/EmailOutlined';
 
 const Navbar = () => {
-    const dispatch = useDispatch();
+  const dispatch = useDispatch();
 
-    return (
+  return (
         <div className="navbar">
             <div className="wrapper">
                 <div className="search">
@@ -50,17 +45,17 @@ const Navbar = () => {
                             className="avatar"
                         />
                     </div>
-                    <div className="item">
+                    {/* <div className="item">
                         <MenuIcon className="icon" />
-                    </div>
+                    </div> */}
                     {/* <div className="item">
                         <SettingsIcon className="icon" />
-                        
+
                     </div> */}
                 </div>
             </div>
         </div>
-    );
+  );
 };
 
 export default Navbar;

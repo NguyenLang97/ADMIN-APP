@@ -5,7 +5,7 @@ import Chart from '../../components/chart/Chart';
 import List from '../../components/table/Table';
 
 const Single = () => {
-    return (
+  return (
         <div className="single">
             <Sidebar />
             <div className="singleContainer">
@@ -53,7 +53,7 @@ const Single = () => {
                 </div>
             </div>
         </div>
-    );
+  );
 };
 
 export default Single;

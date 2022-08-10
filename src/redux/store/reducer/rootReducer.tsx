@@ -3,6 +3,6 @@ import authReducer from './authReducer';
 import darkModeReducer from './darkModeReducer';
 
 export const rootReducer = combineReducers({
-    authReducer: authReducer,
-    darkModeReducer: darkModeReducer,
+  authReducer,
+  darkModeReducer
 });
