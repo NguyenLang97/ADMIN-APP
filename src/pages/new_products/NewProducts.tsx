@@ -138,7 +138,7 @@ const NewProducts = () => {
                                     )} */}
                                     </div>
                                     <div className="formInput">
-                                        <label>Product's name</label>
+                                        <label>{`Product${`&apos;`}s name`}</label>
                                         <input
                                             id="title"
                                             type="text"
@@ -152,14 +152,13 @@ const NewProducts = () => {
 
                                     <div className="formInput">
                                         <label>Description</label>
-                                        <input
+                                        <textarea 
                                             id="description"
-                                            type="text"
                                             placeholder="Description"
                                             {...register('description', {
                                                 required: 'Vui lòng nhập thông tin chi tiết sản phâm',
                                             })}
-                                        />
+                                        ></textarea>
                                         {errors.description && <p className="messages">{errors.description.message}</p>}
                                     </div>
 

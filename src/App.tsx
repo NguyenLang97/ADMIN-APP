@@ -1,35 +1,37 @@
-import Home from './pages/home/Home';
-import Login from './pages/login/Login';
-import Listuser from './pages/list_users/ListUsers';
-import Listproduct from './pages/list_products/ListProducts';
-import Single from './pages/single/Single';
-import NewUsers from './pages/new_users/NewUsers';
-import NewProducts from './pages/new_products/NewProducts';
+import Home from './pages/home/Home'
+import Login from './pages/login/Login'
+import Listuser from './pages/list_users/ListUsers'
+import Listproduct from './pages/list_products/ListProducts'
+import NewUsers from './pages/new_users/NewUsers'
+import NewProducts from './pages/new_products/NewProducts'
 
-import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
-import './style/dark.scss';
-import { useSelector } from 'react-redux';
-import { ReactElement } from 'react';
+import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom'
+import './style/dark.scss'
+import { useSelector } from 'react-redux'
+import { ReactElement } from 'react'
+import ProfileUser from './pages/profile_user/ProfileUser'
+import EditUser from './pages/edit_user/EditUser'
+import ProfileProduct from './pages/profile_product/ProfileProduct'
 
 interface RootState {
     darkModeReducer: {
-        darkMode: boolean;
-    };
+        darkMode: boolean
+    }
     authReducer: {
-        currentUser: boolean;
-    };
+        currentUser: boolean
+    }
 }
-function App () {
-  const darkmode = useSelector((state: RootState) => state.darkModeReducer.darkMode);
-  const currentUser = useSelector((state: RootState) => state.authReducer.currentUser);
+function App() {
+    const darkmode = useSelector((state: RootState) => state.darkModeReducer.darkMode)
+    const currentUser = useSelector((state: RootState) => state.authReducer.currentUser)
 
-    interface childrenProps {
-        children: ReactElement;
+    interface ChildrenProps {
+        children: ReactElement
     }
 
-    const RequireAuth = ({ children }: childrenProps) => {
-      return currentUser ? children : <Navigate to="/login" />;
-    };
+    const RequireAuth = ({ children }: ChildrenProps) => {
+        return currentUser ? children : <Navigate to="/login" />
+    }
 
     return (
         <div className={darkmode ? 'app dark' : 'app'}>
@@ -58,7 +60,7 @@ function App () {
                                 path=":userId"
                                 element={
                                     <RequireAuth>
-                                        <Single />
+                                        <ProfileUser />
                                     </RequireAuth>
                                 }
                             />
@@ -67,6 +69,14 @@ function App () {
                                 element={
                                     <RequireAuth>
                                         <NewUsers />
+                                    </RequireAuth>
+                                }
+                            />
+                            <Route
+                                path="edit"
+                                element={
+                                    <RequireAuth>
+                                        <EditUser />
                                     </RequireAuth>
                                 }
                             />
@@ -84,7 +94,7 @@ function App () {
                                 path=":productId"
                                 element={
                                     <RequireAuth>
-                                        <Single />
+                                        <ProfileProduct />
                                     </RequireAuth>
                                 }
                             />
@@ -96,12 +106,20 @@ function App () {
                                     </RequireAuth>
                                 }
                             />
+                            {/* <Route
+                                path="edit"
+                                element={
+                                    <RequireAuth>
+                                        <EditUser />
+                                    </RequireAuth>
+                                }
+                            /> */}
                         </Route>
                     </Route>
                 </Routes>
             </BrowserRouter>
         </div>
-    );
+    )
 }
 
-export default App;
+export default App
