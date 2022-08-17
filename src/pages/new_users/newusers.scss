@@ -3,6 +3,7 @@
     display: flex;
 
     .newContainer {
+        margin: 40px 0px 50px 170px;
         flex: 6;
         .top,
         .bottom {
@@ -83,7 +84,6 @@
                     .messageSubmit {
                         color: red;
                         margin: auto;
-
                     }
 
                     button {

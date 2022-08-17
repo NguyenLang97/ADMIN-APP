@@ -6,58 +6,56 @@ import { useEffect, useState, ChangeEvent } from 'react'
 import { addDoc, collection, serverTimestamp } from 'firebase/firestore'
 import { db, storage } from '../../firebase/firebase'
 // import { createUserWithEmailAndPassword } from 'firebase/auth';
-import { ref, uploadBytesResumable, getDownloadURL } from 'firebase/storage'
+import { ref, uploadBytesResumable, getDownloadURL, UploadTask } from 'firebase/storage'
 import { useNavigate } from 'react-router-dom'
 import { SubmitHandler, useForm } from 'react-hook-form'
 import { Backdrop, CircularProgress } from '@mui/material'
 
 const NewProducts = () => {
-    const [file, setFile] = useState<File>()
-    const [img, setImg] = useState({})
+    const [file, setFile] = useState<any[]>([])
+    const [img, setImg] = useState([{}])
     const [per, setPerc] = useState<null | number>(null)
     const [error, setError] = useState(false)
     const [loading, setLoading] = useState(false)
     const navigate = useNavigate()
-    console.log(file)
+console.log(file);
 
     useEffect(() => {
         const uploadFile = () => {
-            const name = file && new Date().getTime() + file.name
+            file.forEach((image) => {
+                const name = image && new Date().getTime() + image.name
 
-            console.log(name)
-            const storageRef = file && ref(storage, file.name)
-            const uploadTask = storageRef && file && uploadBytesResumable(storageRef, file)
+                const storageRef = image && ref(storage, image.name)
+                const uploadTask = (storageRef && image && uploadBytesResumable(storageRef, image)) as UploadTask
 
-            uploadTask &&
-                uploadTask.on(
-                    'state_changed',
-                    (snapshot) => {
-                        const progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100
-                        console.log('Upload is ' + progress + '% done')
-                        setPerc(progress)
-                        switch (snapshot.state) {
-                            case 'paused':
-                                console.log('Upload is paused')
-                                break
-                            case 'running':
-                                console.log('Upload is running')
-                                break
-                            default:
-                                break
+                uploadTask &&
+                    uploadTask.on(
+                        'state_changed',
+                        (snapshot) => {
+                            const progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100
+                            console.log('Upload is ' + progress + '% done')
+                            setPerc(progress)
+                            switch (snapshot.state) {
+                                case 'paused':
+                                    console.log('Upload is paused')
+                                    break
+                                case 'running':
+                                    console.log('Upload is running')
+                                    break
+                                default:
+                                    break
+                            }
+                        },
+                        (error) => {
+                            console.log(error)
+                        },
+                        () => {
+                            getDownloadURL(uploadTask.snapshot.ref).then((downloadURL) => {
+                                setImg((prev) => [...prev, { img: downloadURL }])
+                            })
                         }
-                    },
-                    (error) => {
-                        console.log(error)
-                    },
-                    () => {
-                        getDownloadURL(uploadTask.snapshot.ref).then((downloadURL) => {
-                            setImg((prev) => ({
-                                ...prev,
-                                img: downloadURL,
-                            }))
-                        })
-                    }
-                )
+                    )
+            })
         }
         file && uploadFile()
     }, [file])
@@ -88,6 +86,15 @@ const NewProducts = () => {
             setError(true)
         }
     }
+
+    const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
+        //
+        for (let i = 0; i < e.target.files!.length; i++) {
+            const newImage = e.target.files![i]
+            setFile((prev) => [...prev, newImage])
+        }
+    }
+
     const {
         register,
         handleSubmit,
@@ -115,7 +122,16 @@ const NewProducts = () => {
                 ) : (
                     <div className="bottom">
                         <div className="left">
-                            <img src={file ? URL.createObjectURL(file) : 'https://icon-library.com/images/no-image-icon/no-image-icon-0.jpg'} alt="" />
+                            {file.length > 0 ? (
+                                file.map((image) => (
+                                    <>
+                                        <img key={image.id} src={image ? URL.createObjectURL(image) : 'https://icon-library.com/images/no-image-icon/no-image-icon-0.jpg'} alt="" />
+                                        <button>X</button>
+                                    </>
+                                ))
+                            ) : (
+                                <img src={'https://icon-library.com/images/no-image-icon/no-image-icon-0.jpg'} alt="" />
+                            )}
                         </div>
                         <div className="right">
                             <form onSubmit={handleSubmit(handleAdd)}>
@@ -125,10 +141,11 @@ const NewProducts = () => {
                                             Image: <DriveFolderUploadOutlinedIcon className="icon" />
                                         </label>
                                         <input
+                                            multiple
                                             id="file"
                                             type="file"
                                             style={{ display: 'none' }}
-                                            onChange={(e: ChangeEvent<HTMLInputElement>) => setFile(e.target.files![0])}
+                                            onChange={handleChange}
                                             // {...register('file', {
                                             //     required: 'Vui lòng chọn ảnh sản phẩm',
                                             // })}

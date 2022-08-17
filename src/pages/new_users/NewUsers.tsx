@@ -134,7 +134,7 @@ const NewUsers = () => {
                                         <label htmlFor="file">
                                             Image: <DriveFolderUploadOutlinedIcon className="icon" />
                                         </label>
-                                        <input id="file" type="file" onChange={(e) => setFile(e.target.files![0])} style={{ display: 'none' }} />
+                                        <input multiple id="file" type="file" onChange={(e) => setFile(e.target.files![0])} style={{ display: 'none' }} />
                                         <p className="imageMessage">--Chọn ảnh nếu có--</p>
                                     </div>
                                     <div className="formInput">
