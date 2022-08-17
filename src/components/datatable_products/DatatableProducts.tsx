@@ -3,9 +3,10 @@ import { DataGrid } from '@mui/x-data-grid'
 import { productsColumns } from '../../datatablesource'
 import { useEffect, useState } from 'react'
 import { collection, deleteDoc, doc, onSnapshot } from 'firebase/firestore'
-import { db } from '../../firebase'
+import { db } from '../../firebase/firebase'
 import { Link, useNavigate } from 'react-router-dom'
 import { Backdrop, CircularProgress } from '@mui/material'
+import Category from '../category/Category'
 
 const DatatableProducts = () => {
     const [data, setData] = useState([])
@@ -107,7 +108,8 @@ const DatatableProducts = () => {
                             Add New
                         </Link>
                     </div>
-                    <DataGrid className="datagrid" rows={data} columns={productsColumns.concat(actionColumn)} pageSize={5} rowsPerPageOptions={[5]} checkboxSelection />
+                    <Category />
+                    {/* <DataGrid className="datagrid" rows={data} columns={productsColumns.concat(actionColumn)} pageSize={5} rowsPerPageOptions={[5]} checkboxSelection /> */}
                 </div>
             )}
         </>

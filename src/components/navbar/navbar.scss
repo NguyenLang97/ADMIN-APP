@@ -5,6 +5,12 @@
     align-items: center;
     font-size: 14px;
     color: #555;
+    position: fixed;
+    top: 0;
+    right: 0;
+    left: 169px;
+    background: #fff;
+    z-index: 1;
 
     .wrapper {
         width: 100%;
@@ -12,24 +18,7 @@
         display: flex;
         align-items: center;
         justify-content: space-between;
-
-        .search {
-            display: flex;
-            align-items: center;
-            border: 0.5px solid lightgray;
-            border-radius: 20px;
-            padding: 3px;
-
-            input {
-                border: none;
-                outline: none;
-                background: transparent;
-                border-radius: 10px;
-                &::placeholder {
-                    font-size: 12px;
-                }
-            }
-        }
+        flex-direction: row-reverse;
 
         .items {
             display: flex;

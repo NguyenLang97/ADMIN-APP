@@ -4,7 +4,7 @@ import Navbar from '../../components/navbar/Navbar'
 import List from '../../components/table/Table'
 import { useParams } from 'react-router-dom'
 import { doc, getDoc } from 'firebase/firestore'
-import { db, storage } from '../../firebase'
+import { db, storage } from '../../firebase/firebase'
 import { useEffect, useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 
@@ -50,11 +50,10 @@ const ProfileUser = () => {
         docSnap()
     }, [])
 
-    const handleEditUser = (id : any) => {
-        console.log(id);
-        navigate('/users/edit', { state: id})
+    const handleEditUser = (id: any) => {
+        console.log(id)
+        navigate('/users/edit', { state: id })
     }
-    
 
     return (
         <div className="single">

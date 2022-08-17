@@ -1,9 +1,13 @@
 .sidebar {
     flex: 1;
     border-right: 0.5px solid rgb(230, 227, 227);
-    min-width: 160px;
+    min-width: 168px;
     min-height: 100vh;
     background: #f0f2f5;
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 1;
 
     .top {
         height: 50px;

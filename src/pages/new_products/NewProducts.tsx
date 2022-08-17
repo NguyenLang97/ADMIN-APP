@@ -4,7 +4,7 @@ import Navbar from '../../components/navbar/Navbar'
 import DriveFolderUploadOutlinedIcon from '@mui/icons-material/DriveFolderUploadOutlined'
 import { useEffect, useState, ChangeEvent } from 'react'
 import { addDoc, collection, serverTimestamp } from 'firebase/firestore'
-import { db, storage } from '../../firebase'
+import { db, storage } from '../../firebase/firebase'
 // import { createUserWithEmailAndPassword } from 'firebase/auth';
 import { ref, uploadBytesResumable, getDownloadURL } from 'firebase/storage'
 import { useNavigate } from 'react-router-dom'
@@ -138,7 +138,7 @@ const NewProducts = () => {
                                     )} */}
                                     </div>
                                     <div className="formInput">
-                                        <label>{`Product${`&apos;`}s name`}</label>
+                                        <label>Product name</label>
                                         <input
                                             id="title"
                                             type="text"
@@ -152,7 +152,7 @@ const NewProducts = () => {
 
                                     <div className="formInput">
                                         <label>Description</label>
-                                        <textarea 
+                                        <textarea
                                             id="description"
                                             placeholder="Description"
                                             {...register('description', {

@@ -6,7 +6,8 @@ import PersonOutlinedIcon from '@mui/icons-material/PersonOutlined'
 import ShoppingCartOutlinedIcon from '@mui/icons-material/ShoppingCartOutlined'
 import { collection, getDocs, query, where } from 'firebase/firestore'
 import { useEffect, useState } from 'react'
-import { db } from '../../firebase'
+import { Link } from 'react-router-dom'
+import { db } from '../../firebase/firebase'
 import './widget.scss'
 
 interface WidgetProps {
@@ -29,7 +30,7 @@ const Widget = ({ type }: WidgetProps) => {
     let data: DataDefault = { title: '', isMoney: false, link: '', query: '', icon: <></> }
 
     switch (type) {
-        case 'user':
+        case 'users':
             data = {
                 title: 'USERS',
                 isMoney: false,
@@ -70,7 +71,7 @@ const Widget = ({ type }: WidgetProps) => {
                 icon: <MonetizationOnOutlinedIcon className="icon" style={{ backgroundColor: 'rgba(0, 128, 0, 0.2)', color: 'green' }} />,
             }
             break
-        case 'product':
+        case 'products':
             data = {
                 title: 'PRODUCTS',
                 query: 'products',
@@ -116,7 +117,9 @@ const Widget = ({ type }: WidgetProps) => {
                 <span className="counter">
                     {data.isMoney && '$'} {amount}
                 </span>
-                <span className="link">{data.link}</span>
+                <Link to={`/${data.query}`} className="link">
+                    {data.link}
+                </Link>
             </div>
             <div className="right">
                 <div className={`percentage ${diff! < 0 ? 'negative' : 'positive'}`}>

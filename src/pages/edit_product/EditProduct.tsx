@@ -2,7 +2,7 @@ import './EditProduct.scss'
 import Sidebar from '../../components/sidebar/Sidebar'
 import Navbar from '../../components/navbar/Navbar'
 import { CollectionReference, doc, DocumentData, DocumentReference, getDoc, updateDoc } from 'firebase/firestore'
-import { db, storage } from '../../firebase'
+import { db, storage } from '../../firebase/firebase'
 import { useEffect, useState } from 'react'
 import { useLocation } from 'react-router-dom'
 import DriveFolderUploadOutlinedIcon from '@mui/icons-material/DriveFolderUploadOutlined'
@@ -26,10 +26,10 @@ const EditUser = () => {
     //     img: '',
     //     fullname: '',
     //     username: '',
-    //     yearofbirth: '',
-    //     email: '',
+    //     price: '',
+    //     category: '',
     //     password: '',
-    //     phone: 1,
+    //     total: 1,
     //     address: '',
     // }
     const [file, setFile] = useState<File>()
@@ -47,7 +47,7 @@ const EditUser = () => {
     const [per, setPerc] = useState<number>()
     const navigate = useNavigate()
 
-    const docRef = doc(db, 'users', state as string)
+    const docRef = doc(db, 'products', state as string)
     const {
         register,
         handleSubmit,
@@ -126,7 +126,7 @@ const EditUser = () => {
         const newData = { ...data, ...img }
         console.log(newData)
         try {
-            await updateDoc(doc(db, 'users', state as string), {
+            await updateDoc(doc(db, 'products', state as string), {
                 ...newData,
             })
             navigate(-1)
@@ -165,109 +165,80 @@ const EditUser = () => {
                                     <p className="imageMessage">--Chọn ảnh nếu có--</p>
                                 </div>
                                 <div className="formInput">
-                                    <label>Username</label>
+                                    <label>Title</label>
                                     <input
-                                        id="username"
+                                        id="title"
                                         type="text"
-                                        value={data.username}
-                                        {...register('username', {
-                                            onChange: (e) => setData((prev) => ({ ...prev, username: e.target.value })),
+                                        value={data.title}
+                                        {...register('title', {
+                                            onChange: (e) => setData((prev) => ({ ...prev, title: e.target.value })),
                                             required: 'Vui lòng nhập thông tin',
                                         })}
                                     />
-                                    {errors.username && <p className="messages">{errors.username.message}</p>}
+                                    {errors.title && <p className="messages">{errors.title.message}</p>}
                                 </div>
 
                                 <div className="formInput">
-                                    <label>Fullname</label>
+                                    <label>Description</label>
                                     <input
-                                        id="fullname"
+                                        id="description"
                                         type="text"
-                                        value={data.fullname}
-                                        {...register('fullname', {
-                                            onChange: (e) => setData((prev) => ({ ...prev, fullname: e.target.value })),
+                                        value={data.description}
+                                        {...register('description', {
+                                            onChange: (e) => setData((prev) => ({ ...prev, description: e.target.value })),
                                             required: 'Vui lòng nhập thông tin',
                                         })}
                                     />
-                                    {errors.fullname && <p className="messages">{errors.fullname.message}</p>}
+                                    {errors.description && <p className="messages">{errors.description.message}</p>}
                                 </div>
                                 <div className="formInput">
-                                    <label>Email</label>
-                                    <input
-                                        id="email"
-                                        type="email"
-                                        value={data.email}
-                                        {...register('email', {
-                                            required: 'Vui lòng nhập email',
-                                            onChange: (e) => setData((prev) => ({ ...prev, email: e.target.value })),
-                                            pattern: {
-                                                value: /^[a-zA-Z0-9]+@+[a-zA-Z0-9]+.+[A-z]/,
-                                                message: 'Vui lòng nhập email',
-                                            },
+                                    <label>Category</label>
+                                    <select
+                                        id="category"
+                                        value={data.category}
+                                        {...register('category', {
+                                            required: 'Vui lòng nhập category',
+                                            onChange: (e) => setData((prev) => ({ ...prev, category: e.target.value })),
                                         })}
-                                    />
-                                    {errors.email && <p className="messages">{errors.email.message}</p>}
+                                    >
+                                        <option value="">None</option>
+                                        <option value="PC">PC</option>
+                                        <option value="Điện thoại">Điện thoại</option>
+                                        <option value="Laptop">Laptop</option>
+                                        <option value="Chuột">Chuột</option>
+                                    </select>
+                                    {errors.category && <p className="messages">{errors.category.message}</p>}
                                 </div>
                                 <div className="formInput">
-                                    <label>Year of Birth</label>
+                                    <label>Price</label>
                                     <input
-                                        id="yearofbirth"
-                                        type="date"
-                                        value={data.yearofbirth}
-                                        {...register('yearofbirth', {
-                                            onChange: (e) => setData((prev) => ({ ...prev, yearofbirth: e.target.value })),
+                                        id="price"
+                                        type="text"
+                                        value={data.price}
+                                        {...register('price', {
+                                            onChange: (e) => setData((prev) => ({ ...prev, price: e.target.value })),
                                             required: 'Vui lòng nhập ngày tháng năm sinh',
                                         })}
                                     />
-                                    {errors.yearofbirth && <p className="messages">{errors.yearofbirth.message}</p>}
+                                    {errors.price && <p className="messages">{errors.price.message}</p>}
                                 </div>
 
                                 <div className="formInput">
-                                    <label>Phone</label>
+                                    <label>Total</label>
                                     <input
-                                        id="phone"
+                                        id="total"
                                         type="text"
-                                        value={data.phone}
-                                        {...register('phone', {
+                                        value={data.total}
+                                        {...register('total', {
                                             required: 'Vui lòng nhập số điện thoại',
-                                            onChange: (e) => setData((prev) => ({ ...prev, phone: e.target.value })),
+                                            onChange: (e) => setData((prev) => ({ ...prev, total: e.target.value })),
                                             pattern: {
                                                 value: /\d+/,
                                                 message: 'Vui lòng nhập số điện thoại ',
                                             },
                                         })}
                                     />
-                                    {errors.phone && <p className="messages">{errors.phone.message}</p>}
-                                </div>
-                                <div className="formInput">
-                                    <label>Password</label>
-                                    <input
-                                        id="password"
-                                        type="text"
-                                        value={data.password}
-                                        {...register('password', {
-                                            required: 'Vui lòng nhập mật khẩu',
-                                            onChange: (e) => setData((prev) => ({ ...prev, password: e.target.value })),
-                                            minLength: {
-                                                value: 6,
-                                                message: 'Vui lòng nhập 6 ký tự',
-                                            },
-                                        })}
-                                    />
-                                    {errors.password && <p className="messages">{errors.password.message}</p>}
-                                </div>
-                                <div className="formInput">
-                                    <label>Address</label>
-                                    <input
-                                        id="address"
-                                        type="text"
-                                        value={data.address}
-                                        {...register('address', {
-                                            onChange: (e) => setData((prev) => ({ ...prev, address: e.target.value })),
-                                            required: 'Vui lòng nhập địa chỉ',
-                                        })}
-                                    />
-                                    {errors.address && <p className="messages">{errors.address.message}</p>}
+                                    {errors.total && <p className="messages">{errors.total.message}</p>}
                                 </div>
                             </div>
                             {error && <p className="messageSubmit">Đã có tài khoản trên hệ thống</p>}

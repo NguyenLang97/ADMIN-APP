@@ -6,6 +6,7 @@ import HomeSharpIcon from '@mui/icons-material/HomeSharp'
 import LocalShippingIcon from '@mui/icons-material/LocalShipping'
 import NotificationsNoneIcon from '@mui/icons-material/NotificationsNone'
 import PersonOutlineIcon from '@mui/icons-material/PersonOutline'
+import { useTranslation } from 'react-i18next'
 import { useDispatch } from 'react-redux'
 import { Link } from 'react-router-dom'
 import { authLogout } from '../../redux/store/action/authAction'
@@ -14,6 +15,8 @@ import './sidebar.scss'
 
 const Sidebar = () => {
     const dispatch = useDispatch()
+    const { i18n, t } = useTranslation(['sidebar'])
+
     //   const darkmode = useSelector<unknown | any>((state) => state.darkModeReducer.darkMode);
     const handleLogout = () => {
         dispatch(authLogout(''))
@@ -23,7 +26,7 @@ const Sidebar = () => {
         <div className="sidebar">
             <div className="top">
                 <Link to="/" style={{ textDecoration: 'none' }}>
-                    <span className="logo">ADMIN</span>
+                    <span className="logo">{t("sidebar:admin")}</span>
                 </Link>
             </div>
             <hr />
@@ -32,50 +35,50 @@ const Sidebar = () => {
                     {/* <p className="title">MENU</p> */}
                     <Link to="/" style={{ textDecoration: 'none' }}>
                         <li>
-                            <span>Dashboard</span>
+                            <span>{t("sidebar:dashboard")}</span>
                             <HomeSharpIcon className="icon" />
                         </li>
                     </Link>
                     <Link to="/users" style={{ textDecoration: 'none' }}>
                         <li>
-                            <span>Customer</span>
+                            <span>{t("sidebar:customer")}</span>
                             <PersonOutlineIcon className="icon" />
                         </li>
                     </Link>
                     <Link to="/products" style={{ textDecoration: 'none' }}>
                         <li>
-                            <span>Products</span>
+                            <span>{t("sidebar:products")}</span>
                             <CategoryRoundedIcon className="icon" />
                         </li>
                     </Link>
                     <li>
-                        <span>Orders</span>
+                        <span>{t("sidebar:orders")}</span>
                         <CreditCardIcon className="icon" />
                     </li>
                     <li>
-                        <span>Delivery</span>
+                        <span>{t("sidebar:delivery")}</span>
                         <LocalShippingIcon className="icon" />
                     </li>
 
                     <li>
-                        <span>Notifications</span>
+                        <span>{t("sidebar:notifications")}</span>
                         <NotificationsNoneIcon className="icon" />
                     </li>
 
                     <li>
-                        <span>Profile</span>
+                        <span>{t("sidebar:profile")}</span>
                         <AccountCircleOutlinedIcon className="icon" />
                     </li>
                     <li onClick={handleLogout}>
-                        <span>Logout</span>
+                        <span>{t("sidebar:logout")}</span>
                         <ExitToAppIcon className="icon" />
                     </li>
                 </ul>
             </div>
-            <div className="bottom">
+            {/* <div className="bottom">
                 <div className="colorOption" onClick={() => dispatch(handleLight('false'))}></div>
                 <div className="colorOption" onClick={() => dispatch(handleDark('true'))}></div>
-            </div>
+            </div> */}
         </div>
     )
 }

@@ -4,13 +4,22 @@ import { userColumns } from '../../datatablesource'
 import { Link, useNavigate } from 'react-router-dom'
 import { useEffect, useState } from 'react'
 import { collection, deleteDoc, doc, onSnapshot } from 'firebase/firestore'
-import { db } from '../../firebase'
+import { db } from '../../firebase/firebase'
 import { Backdrop, CircularProgress } from '@mui/material'
+import Search from '../search/Search'
+import SearchOutlinedIcon from '@mui/icons-material/SearchOutlined'
 
 const Datatable = () => {
     const [data, setData] = useState([])
     const [loading, setLoading] = useState(false)
+    const [query, setQuery] = useState('')
     const navigate = useNavigate()
+    console.log(query)
+
+    const keys = ['fullname', 'username', 'yearofbirth', 'email', 'phone', 'password', 'address']
+    const search = (data: any) => {
+        return data.filter((item: any) => keys.some((key) => item[key].toLowerCase().includes(query)))
+    }
 
     useEffect(() => {
         // const fetchData = async () => {
@@ -89,7 +98,7 @@ const Datatable = () => {
     ]
     return (
         <>
-            {loading ? (
+            {/* {loading ? (
                 <Backdrop
                     sx={{
                         color: '#fff',
@@ -99,17 +108,21 @@ const Datatable = () => {
                 >
                     <CircularProgress color="inherit" />
                 </Backdrop>
-            ) : (
-                <div className="datatable">
-                    <div className="datatableTitle">
-                        Customer
-                        <Link to="/users/new" className="link">
-                            Add New
-                        </Link>
+            ) : ( */}
+            <div className="datatable">
+                <div className="datatableTitle">
+                    Customer
+                    <div className="search">
+                        <input type="text" placeholder="Search..." onChange={(e) => setQuery(e.target.value)} />
+                        <SearchOutlinedIcon />
                     </div>
-                    <DataGrid className="datagrid" rows={data} columns={userColumns.concat(actionColumn)} pageSize={5} rowsPerPageOptions={[5]} checkboxSelection />
+                    <Link to="/users/new" className="link">
+                        Add New
+                    </Link>
                 </div>
-            )}
+                <DataGrid className="datagrid" rows={search(data)} columns={userColumns.concat(actionColumn)} pageSize={5} rowsPerPageOptions={[5]} checkboxSelection />
+            </div>
+            {/* )} */}
         </>
     )
 }

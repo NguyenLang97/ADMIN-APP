@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react'
 import './login.scss'
 import { signInWithEmailAndPassword } from 'firebase/auth'
-import { auth } from '../../firebase'
+import { auth } from '../../firebase/firebase'
 import { useNavigate } from 'react-router-dom'
 import { authLogin } from '../../redux/store/action/authAction'
 import { useSelector, useDispatch } from 'react-redux/es/exports'
