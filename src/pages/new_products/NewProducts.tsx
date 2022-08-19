@@ -13,12 +13,12 @@ import { Backdrop, CircularProgress } from '@mui/material'
 
 const NewProducts = () => {
     const [file, setFile] = useState<any[]>([])
-    const [img, setImg] = useState([{}])
+    const [img, setImg] = useState<any[]>([])
     const [per, setPerc] = useState<null | number>(null)
     const [error, setError] = useState(false)
     const [loading, setLoading] = useState(false)
     const navigate = useNavigate()
-console.log(file);
+    console.log(file)
 
     useEffect(() => {
         const uploadFile = () => {
@@ -70,7 +70,7 @@ console.log(file);
     }
 
     const handleAdd: SubmitHandler<FormValues> = async (data) => {
-        const dataNew = { ...data, ...img }
+        const dataNew = { ...data, img:[...img] }
         console.log(dataNew)
         console.log(img)
         setLoading(true)
@@ -88,11 +88,14 @@ console.log(file);
     }
 
     const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
-        //
         for (let i = 0; i < e.target.files!.length; i++) {
             const newImage = e.target.files![i]
             setFile((prev) => [...prev, newImage])
         }
+    }
+
+    const handleDeleteImage = (id: any) => {
+        setFile(file.filter((image, index) => index != id ))
     }
 
     const {
@@ -123,10 +126,10 @@ console.log(file);
                     <div className="bottom">
                         <div className="left">
                             {file.length > 0 ? (
-                                file.map((image) => (
+                                file.map((image, index) => (
                                     <>
-                                        <img key={image.id} src={image ? URL.createObjectURL(image) : 'https://icon-library.com/images/no-image-icon/no-image-icon-0.jpg'} alt="" />
-                                        <button>X</button>
+                                        <img key={index} src={URL.createObjectURL(image)} alt="" />
+                                        <button onClick={() => handleDeleteImage(index)}>X</button>
                                     </>
                                 ))
                             ) : (
@@ -174,6 +177,8 @@ console.log(file);
                                             placeholder="Description"
                                             {...register('description', {
                                                 required: 'Vui lòng nhập thông tin chi tiết sản phâm',
+                                                maxLength: { value: 500, message: "Vui lòng nhập 500 ký tự" }
+                                                
                                             })}
                                         ></textarea>
                                         {errors.description && <p className="messages">{errors.description.message}</p>}

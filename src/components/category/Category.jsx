@@ -19,6 +19,7 @@ function Category() {
     const [data, setData] = useState([])
     const [filter, setFilter] = useState(data)
     const [loading, setLoading] = useState(true)
+    console.log({ filter })
 
     useEffect(() => {
         const unsub = onSnapshot(
@@ -77,7 +78,10 @@ function Category() {
                 {filter.map((product) => {
                     return (
                         <div key={product.id} style={{ display: 'flex', gap: 10, flexDirection: 'column' }} className="productItem">
-                            <img style={{ width: 100, height: 100 }} src={product.img} alt="" />
+                            <div>
+                                <img style={{ width: 100, height: 100 }} src={product.img[0].img} alt="" />
+                                {/* <img style={{ width: 50, height: 50 }} src={product.img[1].img} alt="" /> */}
+                            </div>
                             <h5>Tên sản phẩm: {product.title}</h5>
                             <p>Loại: {product.category}</p>
                             <p>Giá: {product.price}</p>

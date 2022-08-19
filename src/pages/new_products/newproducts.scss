@@ -12,6 +12,7 @@
             padding: 10px;
             margin: 20px;
             display: flex;
+            flex-direction: column;
 
             h1 {
                 color: lightgray;
@@ -21,11 +22,12 @@
             .left {
                 flex: 1;
                 text-align: center;
+                margin-bottom: 60px;
 
                 img {
                     width: 100px;
                     height: 100px;
-                    border-radius: 50%;
+                    // border-radius: 50%;
                     object-fit: cover;
                 }
             }
@@ -41,6 +43,10 @@
 
                     .formInput {
                         width: 40%;
+
+                        #description {
+                            min-height: 150px;
+                        }
 
                         label {
                             display: flex;

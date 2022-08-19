@@ -7,11 +7,12 @@ import { doc, getDoc } from 'firebase/firestore'
 import { db, storage } from '../../firebase/firebase'
 import { useEffect, useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
+import { array } from 'yup'
 
 const ProfileUser = () => {
     const navigate = useNavigate()
     interface DataDefault {
-        img: string
+        img: any[]
         title: string
         file: string
         description: string
@@ -22,7 +23,7 @@ const ProfileUser = () => {
 
     // let data: Partial<DataDefault> = {};
     let initialData: DataDefault = {
-        img: '',
+        img: [],
         title: '',
         file: '',
         description: '',
@@ -34,6 +35,8 @@ const ProfileUser = () => {
     const [data, setData] = useState(initialData)
     const { productId } = useParams()
     const docRef = doc(db, 'products', productId as string)
+    console.log('data', data.img)
+
     useEffect(() => {
         const docSnap = async () => {
             await getDoc(docRef).then((docSnap) => {
@@ -52,6 +55,9 @@ const ProfileUser = () => {
         console.log(id)
         navigate('/products/edit', { state: id })
     }
+    // const handleDeleteImage = (id: any) => {
+    //     setData(prev => {...prev,(data.img.filter((image, index) => index != id))})
+    // }
 
     return (
         <div className="single">
@@ -63,7 +69,15 @@ const ProfileUser = () => {
                         <h1 className="title">Information</h1>
                         <div className="item">
                             <div className="wrap-itemImg">
-                                <img src={data.img} alt="" className="itemImg" />
+                                {data.img.length > 0 ? (
+                                    data.img.map((image :any, index:any) => (
+                                        <>
+                                            <img key={index} src={image.img} alt="" />
+                                        </>
+                                    ))
+                                ) : (
+                                    <img src={'https://icon-library.com/images/no-image-icon/no-image-icon-0.jpg'} alt="" />
+                                )}
                             </div>
                             <div className="details">
                                 <h1 className="itemTitle">{data.title}</h1>

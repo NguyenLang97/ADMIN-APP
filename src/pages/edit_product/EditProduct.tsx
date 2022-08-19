@@ -3,17 +3,20 @@ import Sidebar from '../../components/sidebar/Sidebar'
 import Navbar from '../../components/navbar/Navbar'
 import { CollectionReference, doc, DocumentData, DocumentReference, getDoc, updateDoc } from 'firebase/firestore'
 import { db, storage } from '../../firebase/firebase'
-import { useEffect, useState } from 'react'
+import { ChangeEvent, SetStateAction, useEffect, useState } from 'react'
 import { useLocation } from 'react-router-dom'
 import DriveFolderUploadOutlinedIcon from '@mui/icons-material/DriveFolderUploadOutlined'
 import { useNavigate } from 'react-router-dom'
 import { SubmitHandler, useForm } from 'react-hook-form'
-import { ref, uploadBytesResumable, getDownloadURL } from 'firebase/storage'
+import { ref, uploadBytesResumable, getDownloadURL, UploadTask } from 'firebase/storage'
 
 const EditUser = () => {
     let { state } = useLocation()
-    interface DataDefault {
+    interface ImgItem {
         img: string
+    }
+    interface DataDefault {
+        img: ImgItem[]
         title: string
         description: string
         category: string
@@ -32,17 +35,18 @@ const EditUser = () => {
     //     total: 1,
     //     address: '',
     // }
-    const [file, setFile] = useState<File>()
-    const [img, setImg] = useState({})
+    const [file, setFile] = useState<any[]>([])
+    const [img, setImg] = useState<any[]>([])
     const [data, setData] = useState({
-        img: '',
+        img: [],
         title: '',
         file: '',
         description: '',
         category: '',
         price: '',
         total: '',
-    })
+    } as DataDefault)
+
     const [error, setError] = useState(false)
     const [per, setPerc] = useState<number>()
     const navigate = useNavigate()
@@ -60,56 +64,61 @@ const EditUser = () => {
             await getDoc(docRef).then((docSnap) => {
                 if (docSnap.exists()) {
                     setData({ ...docSnap.data() } as DataDefault)
+                    setImg(({ ...docSnap.data() } as DataDefault).img)
                 } else {
                     console.log('No such document!')
                 }
             })
         }
         docSnap()
+    }, [])
 
+    useEffect(() => {
         const uploadFile = () => {
-            const name = file && new Date().getTime() + file.name
-            console.log(name)
-            const storageRef = file && ref(storage, file.name)
-            const uploadTask = storageRef && file && uploadBytesResumable(storageRef, file)
+            file &&
+                file.forEach((image) => {
+                    const name = image && new Date().getTime() + image.name
 
-            uploadTask &&
-                uploadTask.on(
-                    'state_changed',
-                    (snapshot) => {
-                        const progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100
-                        console.log('Upload is ' + progress + '% done')
-                        setPerc(progress)
-                        switch (snapshot.state) {
-                            case 'paused':
-                                console.log('Upload is paused')
-                                break
-                            case 'running':
-                                console.log('Upload is running')
-                                break
-                            default:
-                                break
-                        }
-                    },
-                    (error) => {
-                        console.log(error)
-                    },
-                    () => {
-                        getDownloadURL(uploadTask.snapshot.ref).then((downloadURL) => {
-                            setImg((prev) => ({
-                                ...prev,
-                                img: downloadURL,
-                            }))
-                        })
-                    }
-                )
+                    const storageRef = image && ref(storage, image.name)
+                    const uploadTask = (storageRef && image && uploadBytesResumable(storageRef, image)) as UploadTask
+
+                    uploadTask &&
+                        uploadTask.on(
+                            'state_changed',
+                            (snapshot: any) => {
+                                const progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100
+                                console.log('Upload is ' + progress + '% done')
+                                setPerc(progress)
+                                switch (snapshot.state) {
+                                    case 'paused':
+                                        console.log('Upload is paused')
+                                        break
+                                    case 'running':
+                                        console.log('Upload is running')
+                                        break
+                                    default:
+                                        break
+                                }
+                            },
+                            (error: any) => {
+                                console.log(error)
+                            },
+                            () => {
+                                getDownloadURL(uploadTask.snapshot.ref).then((downloadURL) => {
+                                    setImg((prev) => [...prev, { img: downloadURL }])
+                                    setData((prev) => ({ ...prev, img: [...prev.img, { img: downloadURL }] }))
+                                })
+                            }
+                        )
+                })
         }
         file && uploadFile()
     }, [file])
+    console.log('img', img)
 
     useEffect(() => {
         // reset form with user data
-        reset(data)
+        reset({ ...data } as FormValues)
     }, [data])
 
     type FormValues = {
@@ -119,12 +128,12 @@ const EditUser = () => {
         category: string
         price: string
         total: string
-        img?: string
+        img?: []
     }
 
     const handleAdd: SubmitHandler<FormValues> = async (data) => {
-        const newData = { ...data, ...img }
-        console.log(newData)
+        const newData = { ...data, img: [...img] }
+        console.log('newData', newData)
         try {
             await updateDoc(doc(db, 'products', state as string), {
                 ...newData,
@@ -136,7 +145,19 @@ const EditUser = () => {
         }
     }
 
-    console.log(data)
+    const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
+        for (let i = 0; i < e.target.files!.length; i++) {
+            const newImage = e.target.files![i]
+            setFile((prev) => [...prev, newImage])
+        }
+    }
+
+    const handleDeleteImage = (id: any) => {
+        setImg(img.filter((image, index) => index != id))
+        // setFile(file.filter((image, index) => index != id ))
+        setData({ ...data, img: [...img.filter((image, index) => index != id)] })
+    }
+    console.log(file)
 
     return (
         <div className="single">
@@ -145,7 +166,16 @@ const EditUser = () => {
                 <Navbar />
                 <div className="bottom">
                     <div className="left">
-                        <img src={file ? URL.createObjectURL(file as Blob | MediaSource) : data.img} alt="" />
+                        {
+                            data.img.length &&
+                                data.img.map((image: any, index: any) => (
+                                    <>
+                                        <img style={{ width: 100, height: 100 }} key={index} src={image.img} alt="" />
+                                        <button onClick={() => handleDeleteImage(index)}>X</button>
+                                    </>
+                                ))
+                            // <img src={file ? URL.createObjectURL(file as Blob | MediaSource) : data.img[0].img} alt="" />
+                        }
                     </div>
                     <div className="right">
                         <form onSubmit={handleSubmit(handleAdd)}>
@@ -154,14 +184,7 @@ const EditUser = () => {
                                     <label htmlFor="file">
                                         Image: <DriveFolderUploadOutlinedIcon className="icon" />
                                     </label>
-                                    <input
-                                        id="file"
-                                        type="file"
-                                        onChange={(e) => {
-                                            setFile(e.target.files![0])
-                                        }}
-                                        style={{ display: 'none' }}
-                                    />
+                                    <input multiple id="file" type="file" onChange={handleChange} style={{ display: 'none' }} />
                                     <p className="imageMessage">--Chọn ảnh nếu có--</p>
                                 </div>
                                 <div className="formInput">
