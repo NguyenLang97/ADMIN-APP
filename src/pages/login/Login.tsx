@@ -21,6 +21,12 @@ const Login = () => {
         password: string
     }
 
+    interface Info {
+        id: string
+        name?: string | number
+        address: string
+    }
+
     const state: any = useSelector<RootState>((state) => state.authReducer)
 
     const handleLogin: SubmitHandler<FormValues> = async (data) => {
