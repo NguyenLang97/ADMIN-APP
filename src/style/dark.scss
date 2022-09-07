@@ -17,7 +17,13 @@
     .navbar {
         color: #999;
         border-color: #333;
+        background-color: #111;
+        select {
+        background-color: #111;
+        color: #888;
 
+
+        }
         .search {
             border-color: gray;
         }
@@ -37,6 +43,7 @@
         }
         hr {
             border-color: #333;
+
         }
 
         ul {

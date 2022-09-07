@@ -6,6 +6,7 @@ import NewUsers from './pages/new_users/NewUsers'
 import NewProducts from './pages/new_products/NewProducts'
 import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom'
 import './style/dark.scss'
+import '../src/commons/utils/atomic.scss'
 import { useSelector } from 'react-redux'
 import { ReactElement, Suspense } from 'react'
 import ProfileUser from './pages/profile_user/ProfileUser'
@@ -14,6 +15,7 @@ import ProfileProduct from './pages/profile_product/ProfileProduct'
 import EditProduct from './pages/edit_product/EditProduct'
 import ListOrder from './pages/list_order/ListOrder'
 import ListCategory from './pages/list_category/ListProducts'
+import ProfileOrder from './pages/prodile_order/ProfileOrder'
 
 interface RootState {
     darkModeReducer: {
@@ -161,11 +163,11 @@ function App() {
                                         </RequireAuth>
                                     }
                                 />
-                                {/* <Route
-                                    path=":productId"
+                                <Route
+                                    path=":orderId"
                                     element={
                                         <RequireAuth>
-                                            <ProfileProduct />
+                                            <ProfileOrder />
                                         </RequireAuth>
                                     }
                                 />
@@ -184,7 +186,7 @@ function App() {
                                             <EditProduct />
                                         </RequireAuth>
                                     }
-                                /> */}
+                                />
                             </Route>
                         </Route>
                     </Routes>

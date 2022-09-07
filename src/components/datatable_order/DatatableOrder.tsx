@@ -1,16 +1,16 @@
 import './datatable_order.scss'
-import { DataGrid } from '@mui/x-data-grid'
-import { orderColumns } from '../../datatablesource'
 import { Link, useNavigate } from 'react-router-dom'
 import { useEffect, useState } from 'react'
 import { collection, deleteDoc, doc, onSnapshot } from 'firebase/firestore'
 import { db } from '../../firebase/firebase'
-import { Backdrop, CircularProgress } from '@mui/material'
+import { Backdrop, Button, CircularProgress } from '@mui/material'
 
-import SearchIcon from '@mui/icons-material/Search'
-import ClearIcon from '@mui/icons-material/Clear'
 import React, { FunctionComponent } from 'react'
-import { FormControl, InputAdornment, TextField } from '@mui/material'
+import Paper from '@mui/material/Paper'
+import InputBase from '@mui/material/InputBase'
+import Divider from '@mui/material/Divider'
+import IconButton from '@mui/material/IconButton'
+import SearchIcon from '@mui/icons-material/Search'
 
 const DatatableOrder = () => {
     const [data, setData] = useState([])
@@ -80,10 +80,7 @@ const DatatableOrder = () => {
         navigate('/users/edit', { state: id })
     }
 
-    const [showClearIcon, setShowClearIcon] = useState('none')
-
     const handleChange = (event: React.ChangeEvent<HTMLInputElement>): void => {
-        setShowClearIcon(event.target.value === '' ? 'none' : 'flex')
         setQuery(event.target.value)
     }
 
@@ -151,26 +148,13 @@ const DatatableOrder = () => {
                 <div className="datatableTitle">
                     Order
                     <div className="search">
-                        <FormControl>
-                            <TextField
-                                size="small"
-                                variant="outlined"
-                                onChange={handleChange}
-                                value={query}
-                                InputProps={{
-                                    startAdornment: (
-                                        <InputAdornment position="start">
-                                            <SearchIcon />
-                                        </InputAdornment>
-                                    ),
-                                    endAdornment: (
-                                        <InputAdornment position="end" style={{ display: showClearIcon }} onClick={handleClick}>
-                                            <ClearIcon />
-                                        </InputAdornment>
-                                    ),
-                                }}
-                            />
-                        </FormControl>
+                        <Paper component="form" sx={{ p: '2px 4px', display: 'flex', alignItems: 'center', width: 400 }}>
+                            <InputBase sx={{ ml: 1, flex: 1 }} placeholder="Search ..." inputProps={{ 'aria-label': 'search google maps' }} onChange={handleChange} />
+                            <IconButton type="button" sx={{ p: '10px' }} aria-label="search">
+                                <SearchIcon />
+                            </IconButton>
+                            <Divider orientation="vertical" variant="middle" className="h-28px" />
+                        </Paper>
                     </div>
                     <Link to="/users/new" className="link">
                         Add New
@@ -178,17 +162,15 @@ const DatatableOrder = () => {
                 </div>
                 {/* <DataGrid className="datagrid" rows={search(data)} columns={orderColumns.concat(actionColumn)} pageSize={5} rowsPerPageOptions={[5]} checkboxSelection /> */}
                 <div className="table-responsive">
-                    <table className="table table-bordered border-primary">
+                    <table className="table table-bordered">
                         <thead>
                             <tr>
                                 <th scope="col">STT</th>
                                 <th scope="col">Ngày mua</th>
                                 <th scope="col">Sản phẩm</th>
-                                <th scope="col">Số lượng</th>
-                                <th scope="col">Đơn giá</th>
-                                <th scope="col">Phí vận chuyển</th>
-                                <th scope="col">Tổng tiền</th>
+                                <th scope="col">Người mua</th>
                                 <th scope="col">Trạng thái đơn hàng</th>
+                                <th scope="col">Hành động</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -205,23 +187,29 @@ const DatatableOrder = () => {
                                                 </div>
                                             ))}
                                         </td>
-                                        <td>
+                                        {/* <td>
                                             {item.cartItems.map((item: CartItemsState, index: number) => (
                                                 <div key={index} className="d-flex flex-colum justify-content-between">
                                                     <p>{item.quantity}</p>
                                                 </div>
                                             ))}
-                                        </td>
+                                        </td> */}
                                         <td>
-                                            {item.cartItems.map((item: CartItemsState, index: number) => (
-                                                <div key={index} className="d-flex flex-colum justify-content-between">
-                                                    <p>{item.price}</p>
-                                                </div>
-                                            ))}
+                                            <p>{item.name}</p>
                                         </td>
-                                        <td>30</td>
-                                        <td>{item.totalAmountOrder}</td>
-                                        <td>Đặt hàng thành công</td>
+
+                                        <td>{item.status}</td>
+                                        <td className="d-flex ">
+                                            <Link to={`/order/${item.id}`} style={{ textDecoration: 'none' }}>
+                                                <Button variant="contained" color="success">
+                                                    View
+                                                </Button>
+                                            </Link>
+
+                                            <Button variant="outlined" color="error" className="m-l-8" onClick={() => handleDelete(item.id)}>
+                                                Delete
+                                            </Button>
+                                        </td>
                                     </tr>
                                 ))}
                         </tbody>

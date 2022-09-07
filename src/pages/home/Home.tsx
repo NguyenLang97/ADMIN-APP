@@ -1,19 +1,18 @@
-import Sidebar from '../../components/sidebar/Sidebar';
-import Navbar from '../../components/navbar/Navbar';
-import './home.scss';
-import Widget from '../../components/widget/Widget';
-import Featured from '../../components/featured/Featured';
-import Table from '../../components/table/Table';
-import { useTranslation } from 'react-i18next';
+import Sidebar from '../../components/sidebar/Sidebar'
+import Navbar from '../../components/navbar/Navbar'
+import './home.scss'
+import Widget from '../../components/widget/Widget'
+import Featured from '../../components/featured/Featured'
+import Table from '../../components/table/Table'
+import { useTranslation } from 'react-i18next'
 
 const Home = () => {
-    
-  return (
+    return (
         <div className="home">
             <Sidebar />
-            <div className="homeContainer">
+            <div className="homeContainer m-t-100">
                 <Navbar />
-                <div className="widgets">
+                <div className="widgets ">
                     <Widget type="users" />
                     <Widget type="products" />
                     <Widget type="order" />
@@ -29,7 +28,7 @@ const Home = () => {
                 </div>
             </div>
         </div>
-  );
-};
+    )
+}
 
-export default Home;
+export default Home

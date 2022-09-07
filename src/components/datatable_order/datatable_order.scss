@@ -1,6 +1,7 @@
 .datatable {
     height: 600px;
-    margin: 56px 20px 20px 180px;
+    margin: 90px 20px 20px 180px;
+
 
     .datatableTitle {
         width: 100%;
@@ -74,5 +75,9 @@
             border: 1px dotted rgba(220, 20, 60, 0.6);
             cursor: pointer;
         }
+    }
+    .order__item-img {
+        width: 30px !important;
+        height: 30px !important;
     }
 }
