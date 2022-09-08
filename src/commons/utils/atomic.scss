@@ -211,10 +211,17 @@
 .h-72 {
     height: 72px;
 }
+.min-height-100px {
+    min-height: 100px;
+}
 
 p {
     margin-bottom: 0;
 }
 .white-space-initial {
     white-space: initial;
+}
+
+.width-30px {
+    width: 30px;
 }

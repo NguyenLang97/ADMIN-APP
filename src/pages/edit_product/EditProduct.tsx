@@ -207,7 +207,7 @@ const EditUser = () => {
                                 <div className="formInput d-flex flex-column">
                                     <label>Description</label>
                                     <textarea
-                                        className="h-48"
+                                        className=" min-height-100px"
                                         id="description"
                                         value={data.description}
                                         {...register('description', {
@@ -217,10 +217,10 @@ const EditUser = () => {
                                     ></textarea>
                                     {errors.description && <p className="messages">{errors.description.message}</p>}
                                 </div>
-                                <div className="formInput d-flex flex-column">
+                                <div className="formInput d-flex flex-column ">
                                     <label>Specification</label>
                                     <textarea
-                                        className="h-48"
+                                        className=" min-height-100px"
                                         id="specification"
                                         value={data.description}
                                         {...register('specification', {

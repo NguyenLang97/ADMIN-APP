@@ -74,11 +74,11 @@ export const userColumns = [
         headerName: 'Address',
         width: 200,
     },
-    {
-        field: 'yearofbirth',
-        headerName: 'Year of Birth',
-        width: 100,
-    },
+    // {
+    //     field: 'yearofbirth',
+    //     headerName: 'Year of Birth',
+    //     width: 100,
+    // },
 ]
 export const productsColumns = [
     {

@@ -60,12 +60,17 @@ const ProfileUser = () => {
             <Sidebar />
             <div className="singleContainer">
                 <Navbar />
-                <div className="top">
-                    <div className="left">
+                <div className="top ">
+                    <div className="left p-2">
                         <h1 className="title">Information</h1>
                         <div className="item">
                             <div className="wrap-itemImg">
-                                <img src={data.img} alt="" className="itemImg" />
+                                <img
+                                    src={data.img ? data.img : 'https://thumbs.dreamstime.com/b/default-avatar-profile-trendy-style-social-media-user-icon-187599373.jpg'}
+                                    alt=""
+                                    className="itemImg"
+                                    style={{ width: 100, height: 100 }}
+                                />
                             </div>
                             <div className="details">
                                 <h1 className="itemTitle">{data.fullname}</h1>

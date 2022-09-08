@@ -150,28 +150,44 @@ const EditUser = () => {
             <Sidebar />
             <div className="singleContainer">
                 <Navbar />
-                <div className="bottom">
-                    <div className="left">
-                        <img src={file ? URL.createObjectURL(file as Blob | MediaSource) : data.img} alt="" />
+                <div className="bottom ">
+                    <div className="left d-flex flex-column justify-content-center text-center">
+                        {file ? (
+                            <div className="d-flex justify-content-center">
+                                <img style={{ width: 120, height: 120, borderRadius: 60, margin: 'auto' }} src={URL.createObjectURL(file as Blob | MediaSource)} alt="" />
+                            </div>
+                        ) : (
+                            <div className="d-flex justify-content-center">
+                                <img
+                                    style={{ width: 120, height: 120, borderRadius: 60 }}
+                                    src={data.img ? data.img : 'https://thumbs.dreamstime.com/b/default-avatar-profile-trendy-style-social-media-user-icon-187599373.jpg'}
+                                    alt=""
+                                />
+                            </div>
+                        )}
+                        <p className="imageMessage">--Chọn ảnh nếu có--</p>
+
+                        {/* <img style={{ width: 100, height: 100 }} src={file ? URL.createObjectURL(file as Blob | MediaSource) : data.img} alt="" /> */}
                     </div>
                     <div className="right">
-                        <form onSubmit={handleSubmit(handleAdd)}>
-                            <div className="formInput-wrap">
-                                <div className="formInput">
-                                    <label htmlFor="file">
+                        <form onSubmit={handleSubmit(handleAdd)} className="d-flex justify-content-center flex-column">
+                            <div className="formInput-wrap d-flex flex-row flex-wrap">
+                                <div className="input-group mb-3 p-3">
+                                    <label htmlFor="file" className="input-group-text">
                                         Image: <DriveFolderUploadOutlinedIcon className="icon" />
                                     </label>
                                     <input
                                         id="file"
                                         type="file"
+                                        className="form-control"
                                         onChange={(e) => {
                                             setFile(e.target.files![0])
                                         }}
-                                        style={{ display: 'none' }}
                                     />
-                                    <p className="imageMessage">--Chọn ảnh nếu có--</p>
                                 </div>
-                                <div className="formInput">
+                                {/* <p className="imageMessage">--Chọn ảnh nếu có--</p> */}
+
+                                <div className="formInput  d-flex flex-column">
                                     <label>Username</label>
                                     <input
                                         id="username"
@@ -185,7 +201,7 @@ const EditUser = () => {
                                     {errors.username && <p className="messages">{errors.username.message}</p>}
                                 </div>
 
-                                <div className="formInput">
+                                <div className="formInput d-flex flex-column">
                                     <label>Fullname</label>
                                     <input
                                         id="fullname"
@@ -198,7 +214,7 @@ const EditUser = () => {
                                     />
                                     {errors.fullname && <p className="messages">{errors.fullname.message}</p>}
                                 </div>
-                                <div className="formInput">
+                                <div className="formInput d-flex flex-column">
                                     <label>Email</label>
                                     <input
                                         id="email"
@@ -215,7 +231,7 @@ const EditUser = () => {
                                     />
                                     {errors.email && <p className="messages">{errors.email.message}</p>}
                                 </div>
-                                <div className="formInput">
+                                <div className="formInput d-flex flex-column">
                                     <label>Year of Birth</label>
                                     <input
                                         id="yearofbirth"
@@ -229,7 +245,7 @@ const EditUser = () => {
                                     {errors.yearofbirth && <p className="messages">{errors.yearofbirth.message}</p>}
                                 </div>
 
-                                <div className="formInput">
+                                <div className="formInput d-flex flex-column">
                                     <label>Phone</label>
                                     <input
                                         id="phone"
@@ -246,7 +262,7 @@ const EditUser = () => {
                                     />
                                     {errors.phone && <p className="messages">{errors.phone.message}</p>}
                                 </div>
-                                <div className="formInput">
+                                <div className="formInput d-flex flex-column">
                                     <label>Password</label>
                                     <input
                                         id="password"
@@ -263,7 +279,7 @@ const EditUser = () => {
                                     />
                                     {errors.password && <p className="messages">{errors.password.message}</p>}
                                 </div>
-                                <div className="formInput">
+                                <div className="formInput d-flex flex-column">
                                     <label>Address</label>
                                     <input
                                         id="address"
@@ -278,7 +294,7 @@ const EditUser = () => {
                                 </div>
                             </div>
                             {error && <p className="messageSubmit">Đã có tài khoản trên hệ thống</p>}
-                            <Button disabled={per! < 100} type="submit" variant="contained">
+                            <Button disabled={per! < 100} type="submit" variant="contained" className="">
                                 Send
                             </Button>
                         </form>
