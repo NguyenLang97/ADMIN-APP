@@ -84,7 +84,7 @@ export const productsColumns = [
     {
         field: 'products',
         headerName: 'Products',
-        width: 160,
+        width: 300,
         renderCell: (params) => {
             return (
                 <div className="cellWithImg">

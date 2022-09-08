@@ -9,6 +9,7 @@ import DriveFolderUploadOutlinedIcon from '@mui/icons-material/DriveFolderUpload
 import { useNavigate } from 'react-router-dom'
 import { SubmitHandler, useForm } from 'react-hook-form'
 import { ref, uploadBytesResumable, getDownloadURL, UploadTask } from 'firebase/storage'
+import { Button } from '@mui/material'
 
 const EditUser = () => {
     let { state } = useLocation()
@@ -125,6 +126,7 @@ const EditUser = () => {
         file: string
         title: string
         description: string
+        specification: string
         category: string
         price: string
         total: string
@@ -165,29 +167,30 @@ const EditUser = () => {
             <div className="singleContainer">
                 <Navbar />
                 <div className="bottom">
-                    <div className="left">
+                    <div className="left d-flex flex-row justify-content-center">
                         {
                             data.img.length &&
                                 data.img.map((image: any, index: any) => (
-                                    <>
-                                        <img style={{ width: 100, height: 100 }} key={index} src={image.img} alt="" />
-                                        <button onClick={() => handleDeleteImage(index)}>X</button>
-                                    </>
+                                    <div key={index} className="d-flex flex-column m-l-8">
+                                        <img style={{ width: 100, height: 100 }} src={image.img} alt="" />
+                                        <button className="btn btn-outline-danger" onClick={() => handleDeleteImage(index)}>
+                                            Xóa
+                                        </button>
+                                    </div>
                                 ))
                             // <img src={file ? URL.createObjectURL(file as Blob | MediaSource) : data.img[0].img} alt="" />
                         }
                     </div>
                     <div className="right">
                         <form onSubmit={handleSubmit(handleAdd)}>
-                            <div className="formInput-wrap">
-                                <div className="formInput">
-                                    <label htmlFor="file">
+                            <div className="formInput-wrap d-flex flex-row flex-wrap">
+                                <div className="input-group mb-3 p-3">
+                                    <label htmlFor="file" className="input-group-text">
                                         Image: <DriveFolderUploadOutlinedIcon className="icon" />
                                     </label>
-                                    <input multiple id="file" type="file" onChange={handleChange} style={{ display: 'none' }} />
-                                    <p className="imageMessage">--Chọn ảnh nếu có--</p>
+                                    <input multiple id="file" type="file" onChange={handleChange} className="form-control" />
                                 </div>
-                                <div className="formInput">
+                                <div className="formInput d-flex flex-column ">
                                     <label>Title</label>
                                     <input
                                         id="title"
@@ -201,20 +204,33 @@ const EditUser = () => {
                                     {errors.title && <p className="messages">{errors.title.message}</p>}
                                 </div>
 
-                                <div className="formInput">
+                                <div className="formInput d-flex flex-column">
                                     <label>Description</label>
-                                    <input
+                                    <textarea
+                                        className="h-48"
                                         id="description"
-                                        type="text"
                                         value={data.description}
                                         {...register('description', {
                                             onChange: (e) => setData((prev) => ({ ...prev, description: e.target.value })),
                                             required: 'Vui lòng nhập thông tin',
                                         })}
-                                    />
+                                    ></textarea>
                                     {errors.description && <p className="messages">{errors.description.message}</p>}
                                 </div>
-                                <div className="formInput">
+                                <div className="formInput d-flex flex-column">
+                                    <label>Specification</label>
+                                    <textarea
+                                        className="h-48"
+                                        id="specification"
+                                        value={data.description}
+                                        {...register('specification', {
+                                            onChange: (e) => setData((prev) => ({ ...prev, specification: e.target.value })),
+                                            required: 'Vui lòng nhập thông tin',
+                                        })}
+                                    ></textarea>
+                                    {errors.specification && <p className="messages">{errors.specification.message}</p>}
+                                </div>
+                                <div className="formInput d-flex flex-column">
                                     <label>Category</label>
                                     <select
                                         id="category"
@@ -232,7 +248,7 @@ const EditUser = () => {
                                     </select>
                                     {errors.category && <p className="messages">{errors.category.message}</p>}
                                 </div>
-                                <div className="formInput">
+                                <div className="formInput d-flex flex-column">
                                     <label>Price</label>
                                     <input
                                         id="price"
@@ -246,7 +262,7 @@ const EditUser = () => {
                                     {errors.price && <p className="messages">{errors.price.message}</p>}
                                 </div>
 
-                                <div className="formInput">
+                                <div className="formInput d-flex flex-column">
                                     <label>Total</label>
                                     <input
                                         id="total"
@@ -265,9 +281,9 @@ const EditUser = () => {
                                 </div>
                             </div>
                             {error && <p className="messageSubmit">Đã có tài khoản trên hệ thống</p>}
-                            <button disabled={per! < 100} type="submit">
+                            <Button disabled={per! < 100} type="submit" variant="contained">
                                 Send
-                            </button>
+                            </Button>
                         </form>
                     </div>
                 </div>

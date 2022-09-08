@@ -9,7 +9,7 @@ import { db, storage } from '../../firebase/firebase'
 import { ref, uploadBytesResumable, getDownloadURL, UploadTask } from 'firebase/storage'
 import { useNavigate } from 'react-router-dom'
 import { SubmitHandler, useForm } from 'react-hook-form'
-import { Backdrop, CircularProgress } from '@mui/material'
+import { Backdrop, Button, CircularProgress } from '@mui/material'
 
 const NewProducts = () => {
     const [file, setFile] = useState<any[]>([])
@@ -67,6 +67,7 @@ const NewProducts = () => {
         price: string
         email: string
         total: string
+        specification: string
     }
 
     const handleAdd: SubmitHandler<FormValues> = async (data) => {
@@ -109,8 +110,8 @@ const NewProducts = () => {
             <Sidebar />
             <div className="newContainer">
                 <Navbar />
-                <div className="top">
-                    <h1>Add New Products</h1>
+                <div className="top d-flex flex-row ">
+                    <h1>Products</h1>
                 </div>
                 {loading ? (
                     <Backdrop
@@ -124,13 +125,15 @@ const NewProducts = () => {
                     </Backdrop>
                 ) : (
                     <div className="bottom">
-                        <div className="left">
+                        <div className="left d-flex flex-row justify-content-center">
                             {file.length > 0 ? (
                                 file.map((image, index) => (
-                                    <>
-                                        <img key={index} src={URL.createObjectURL(image)} alt="" />
-                                        <button onClick={() => handleDeleteImage(index)}>X</button>
-                                    </>
+                                    <div key={index} className="d-flex flex-column m-l-8">
+                                        <img src={URL.createObjectURL(image)} alt="" />
+                                        <button className="btn btn-outline-danger" onClick={() => handleDeleteImage(index)}>
+                                            Xóa
+                                        </button>
+                                    </div>
                                 ))
                             ) : (
                                 <img src={'https://icon-library.com/images/no-image-icon/no-image-icon-0.jpg'} alt="" />
@@ -139,15 +142,15 @@ const NewProducts = () => {
                         <div className="right">
                             <form onSubmit={handleSubmit(handleAdd)}>
                                 <div className="formInput-wrap">
-                                    <div className="formInput">
-                                        <label htmlFor="file">
+                                    <div className="input-group mb-3 p-3">
+                                        <label htmlFor="file" className="input-group-text">
                                             Image: <DriveFolderUploadOutlinedIcon className="icon" />
                                         </label>
                                         <input
                                             multiple
                                             id="file"
                                             type="file"
-                                            style={{ display: 'none' }}
+                                            className="form-control"
                                             onChange={handleChange}
                                             // {...register('file', {
                                             //     required: 'Vui lòng chọn ảnh sản phẩm',
@@ -180,6 +183,17 @@ const NewProducts = () => {
                                             })}
                                         ></textarea>
                                         {errors.description && <p className="messages">{errors.description.message}</p>}
+                                    </div>
+                                    <div className="formInput">
+                                        <label>Specification</label>
+                                        <textarea
+                                            id="specification"
+                                            placeholder="Specification"
+                                            {...register('specification', {
+                                                required: 'Vui lòng nhập thông số kỹ thuật sản phâm',
+                                            })}
+                                        ></textarea>
+                                        {errors.specification && <p className="messages">{errors.specification.message}</p>}
                                     </div>
 
                                     <div className="formInput">
@@ -232,9 +246,9 @@ const NewProducts = () => {
                                     </div>
                                 </div>
                                 {error && <p className="messageSubmit">Đã có sản phẩm trên hệ thống</p>}
-                                <button disabled={per !== null && per < 100} type="submit">
+                                <Button disabled={per !== null && per < 100} type="submit" variant="contained">
                                     Send
-                                </button>
+                                </Button>
                             </form>
                         </div>
                     </div>

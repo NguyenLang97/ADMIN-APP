@@ -9,6 +9,7 @@ import DriveFolderUploadOutlinedIcon from '@mui/icons-material/DriveFolderUpload
 import { useNavigate } from 'react-router-dom'
 import { SubmitHandler, useForm } from 'react-hook-form'
 import { ref, uploadBytesResumable, getDownloadURL } from 'firebase/storage'
+import { Button } from '@mui/material'
 
 const EditUser = () => {
     let { state } = useLocation()
@@ -277,9 +278,9 @@ const EditUser = () => {
                                 </div>
                             </div>
                             {error && <p className="messageSubmit">Đã có tài khoản trên hệ thống</p>}
-                            <button disabled={per! < 100} type="submit">
+                            <Button disabled={per! < 100} type="submit" variant="contained">
                                 Send
-                            </button>
+                            </Button>
                         </form>
                     </div>
                 </div>

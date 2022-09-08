@@ -124,6 +124,9 @@
 .m-t-100 {
     margin-top: 100px;
 }
+.m-t-16 {
+    margin-top: 16px !important;
+}
 .m-b-12 {
     margin-bottom: 12px;
 }
@@ -185,4 +188,33 @@
     outline: #3a5dd9;
     display: flex;
     align-items: center;
+}
+
+.text-overflow-2 {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+}
+.text-overflow-3 {
+    overflow: hidden;
+    height: 72px;
+    text-overflow: ellipsis;
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+}
+.h-48 {
+    height: 48px;
+}
+.h-72 {
+    height: 72px;
+}
+
+p {
+    margin-bottom: 0;
+}
+.white-space-initial {
+    white-space: initial;
 }

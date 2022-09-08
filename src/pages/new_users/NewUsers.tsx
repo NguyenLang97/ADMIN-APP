@@ -9,7 +9,7 @@ import { createUserWithEmailAndPassword } from 'firebase/auth'
 import { ref, uploadBytesResumable, getDownloadURL } from 'firebase/storage'
 import { useNavigate } from 'react-router-dom'
 import { SubmitHandler, useForm } from 'react-hook-form'
-import { Backdrop, CircularProgress } from '@mui/material'
+import { Backdrop, Button, CircularProgress } from '@mui/material'
 
 const NewUsers = () => {
     const [file, setFile] = useState<File>()
@@ -110,7 +110,7 @@ const NewUsers = () => {
             <div className="newContainer">
                 <Navbar />
                 <div className="top">
-                    <h1>Add New User</h1>
+                    <h1>User</h1>
                 </div>
                 {loading ? (
                     <Backdrop
@@ -237,9 +237,9 @@ const NewUsers = () => {
                                     </div>
                                 </div>
                                 {error && <p className="messageSubmit">Đã có tài khoản trên hệ thống</p>}
-                                <button disabled={per! < 100} type="submit">
+                                <Button disabled={per! < 100} type="submit" variant="contained">
                                     Send
-                                </button>
+                                </Button>
                             </form>
                         </div>
                     </div>

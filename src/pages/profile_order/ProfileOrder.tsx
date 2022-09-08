@@ -65,6 +65,7 @@ const ListProducts = () => {
                 if (docSnap.exists()) {
                     console.log('Document data:', docSnap.data())
                     setData({ ...docSnap.data() } as any)
+                    setStatus(docSnap.data().status)
                 } else {
                     console.log('No such document!')
                 }

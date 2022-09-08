@@ -5,7 +5,7 @@ import { useEffect, useState } from 'react'
 import { collection, deleteDoc, doc, onSnapshot } from 'firebase/firestore'
 import { db } from '../../firebase/firebase'
 import { Link, useNavigate } from 'react-router-dom'
-import { Backdrop, CircularProgress } from '@mui/material'
+import { Backdrop, Button, CircularProgress } from '@mui/material'
 import Category from '../category/Category'
 
 const DatatableProducts = () => {
@@ -89,7 +89,7 @@ const DatatableProducts = () => {
         },
     ]
     return (
-        <>
+        <div>
             {loading ? (
                 <Backdrop
                     sx={{
@@ -104,15 +104,15 @@ const DatatableProducts = () => {
                 <div className="datatable">
                     <div className="datatableTitle">
                         Products
-                        <Link to="/products/new" className="link">
-                            Add New
+                        <Link to="/products/new">
+                            <Button variant="contained">Add New</Button>
                         </Link>
                     </div>
                     {/* <Category /> */}
                     <DataGrid className="datagrid" rows={data} columns={productsColumns.concat(actionColumn)} pageSize={5} rowsPerPageOptions={[5]} checkboxSelection />
                 </div>
             )}
-        </>
+        </div>
     )
 }
 

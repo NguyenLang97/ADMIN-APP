@@ -5,7 +5,7 @@ import { Link, useNavigate } from 'react-router-dom'
 import { useEffect, useState } from 'react'
 import { collection, deleteDoc, doc, onSnapshot } from 'firebase/firestore'
 import { db } from '../../firebase/firebase'
-import { Backdrop, CircularProgress } from '@mui/material'
+import { Backdrop, Button, CircularProgress } from '@mui/material'
 
 import SearchIcon from '@mui/icons-material/Search'
 import ClearIcon from '@mui/icons-material/Clear'
@@ -156,8 +156,8 @@ const Datatable = () => {
                             />
                         </FormControl>
                     </div>
-                    <Link to="/users/new" className="link">
-                        Add New
+                    <Link to="/users/new">
+                        <Button variant="contained">Add New</Button>
                     </Link>
                 </div>
                 <DataGrid className="datagrid" rows={search(data)} columns={userColumns.concat(actionColumn)} pageSize={5} rowsPerPageOptions={[5]} checkboxSelection />

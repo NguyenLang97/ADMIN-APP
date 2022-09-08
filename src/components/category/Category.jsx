@@ -13,6 +13,7 @@ import {
 } from 'firebase/firestore'
 import { db } from '../../firebase/firebase'
 import { useNavigate } from 'react-router-dom'
+import { Button, Grid, Item } from '@mui/material'
 
 function Category() {
     const navigate = useNavigate()
@@ -65,46 +66,62 @@ function Category() {
     return (
         <div className="category">
             <div>
-                <button onClick={() => setFilter(data)}>All</button>
-                <button onClick={() => filterProduct('PC')}>PC</button>
-                <button onClick={() => filterProduct('Điện thoại')}>Điện thoại</button>
-                <button onClick={() => filterProduct('Bàn phím')}>Bàn phím</button>
-                <button onClick={() => filterProduct('Chuột')}>Chuột</button>
-                <button onClick={() => filterProduct('Tai nghe')}>Tai nghe</button>
-                <button onClick={() => filterProduct('Laptop')}>Laptop</button>
-                <button onClick={() => filterProduct('VGA')}>VGA</button>
+                <Button variant="outlined" onClick={() => setFilter(data)}>
+                    All
+                </Button>
+                <Button variant="outlined" onClick={() => filterProduct('PC')}>
+                    PC
+                </Button>
+                <Button variant="outlined" onClick={() => filterProduct('Điện thoại')}>
+                    Điện thoại
+                </Button>
+                <Button variant="outlined" onClick={() => filterProduct('Bàn phím')}>
+                    Bàn phím
+                </Button>
+                <Button variant="outlined" onClick={() => filterProduct('Chuột')}>
+                    Chuột
+                </Button>
+                <Button variant="outlined" onClick={() => filterProduct('Tai nghe')}>
+                    Tai nghe
+                </Button>
+                <Button variant="outlined" onClick={() => filterProduct('Laptop')}>
+                    Laptop
+                </Button>
+                <Button variant="outlined" onClick={() => filterProduct('VGA')}>
+                    VGA
+                </Button>
             </div>
-            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4,1fr)' }}>
+            <Grid container spacing={2} className="m-t-16 ">
                 {filter.map((product) => {
                     return (
-                        <div key={product.id} style={{ display: 'flex', gap: 10, flexDirection: 'column' }} className="productItem">
-                            <div>
-                                <img style={{ width: 100, height: 100 }} src={product.img[0].img} alt="" />
+                        <Grid item xs={2} md={2} key={product.id} style={{ gap: 5 }} className="productItem d-flex flex-column m-1">
+                            <div className="d-flex justify-content-center">
+                                <img style={{ width: 80, height: 80 }} src={product.img[0].img} alt="" />
                                 {/* <img style={{ width: 50, height: 50 }} src={product.img[1].img} alt="" /> */}
                             </div>
-                            <h5>Tên sản phẩm: {product.title}</h5>
-                            <p>Loại: {product.category}</p>
+                            <h5 className="text-overflow-2 h-48"> {product.title}</h5>
+                            <p>{product.category}</p>
                             <p>Giá: {product.price}</p>
-                            <p>Mô tả: {product.description}</p>
+                            <p className="text-overflow-3 w-100">Mô tả: {product.description}</p>
                             <p>Số lượng: {product.total}</p>
                             {/* <Link to={`/product/${product.id}`}>Buy Now</Link> */}
-                            <div>
+                            <div className="d-flex justify-content-between">
                                 <Link to={`/products/${product.id}`} style={{ textDecoration: 'none' }}>
-                                    <div className="viewButton">View</div>
+                                    <Button className="viewButton">View</Button>
                                 </Link>
 
-                                <div className="viewButton" onClick={() => handleEdit(product.id)}>
+                                <Button className="viewButton" onClick={() => handleEdit(product.id)}>
                                     Edit
-                                </div>
+                                </Button>
 
-                                <div className="deleteButton" onClick={() => handleDelete(product.id)}>
+                                <Button color="error" onClick={() => handleDelete(product.id)}>
                                     Delete
-                                </div>
+                                </Button>
                             </div>
-                        </div>
+                        </Grid>
                     )
                 })}
-            </div>
+            </Grid>
         </div>
     )
 }

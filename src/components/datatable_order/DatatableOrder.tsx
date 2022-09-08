@@ -156,8 +156,8 @@ const DatatableOrder = () => {
                             <Divider orientation="vertical" variant="middle" className="h-28px" />
                         </Paper>
                     </div>
-                    <Link to="/users/new" className="link">
-                        Add New
+                    <Link to="/users/new">
+                        <Button variant="contained">Add New</Button>
                     </Link>
                 </div>
                 {/* <DataGrid className="datagrid" rows={search(data)} columns={orderColumns.concat(actionColumn)} pageSize={5} rowsPerPageOptions={[5]} checkboxSelection /> */}

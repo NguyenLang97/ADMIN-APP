@@ -1,3 +1,4 @@
+$text-color-special: #3555c5;
 .single {
     display: flex;
     width: 100%;
@@ -17,6 +18,8 @@
             .left {
                 flex: 1;
                 position: relative;
+                box-shadow: rgb(60 64 67 / 30%) 0px 1px 2px 0px, rgb(60 64 67 / 15%) 0px 1px 3px 1px;
+                border-radius: 10px;
 
                 .item {
                     display: flex;
@@ -46,7 +49,7 @@
 
                             .itemKey {
                                 font-weight: bold;
-                                color: gray;
+                                color: #3555c5;
                                 margin-right: 5px;
                             }
 
@@ -66,7 +69,7 @@
                 color: white;
                 font-weight: bold;
                 text-align: center;
-                cursor: pointer;    
+                cursor: pointer;
                 margin-top: 10px;
             }
 
@@ -87,5 +90,14 @@
             color: lightgray;
             margin-bottom: 20px;
         }
+    }
+}
+
+.catalog-item {
+    &:hover,
+    &:active,
+    &.active {
+        border: solid 1px $text-color-special;
+        border-radius: 8px;
     }
 }

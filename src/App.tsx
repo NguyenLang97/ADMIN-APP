@@ -15,7 +15,7 @@ import ProfileProduct from './pages/profile_product/ProfileProduct'
 import EditProduct from './pages/edit_product/EditProduct'
 import ListOrder from './pages/list_order/ListOrder'
 import ListCategory from './pages/list_category/ListProducts'
-import ProfileOrder from './pages/prodile_order/ProfileOrder'
+import ProfileOrder from './pages/profile_order/ProfileOrder'
 
 interface RootState {
     darkModeReducer: {
