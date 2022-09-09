@@ -51,6 +51,7 @@ const Widget = ({ type }: WidgetProps) => {
             data = {
                 title: 'ORDERS',
                 isMoney: false,
+                query: 'order',
                 link: 'View all orders',
                 icon: (
                     <ShoppingCartOutlinedIcon
@@ -104,7 +105,7 @@ const Widget = ({ type }: WidgetProps) => {
             const prevMonthData = await getDocs(prevMonthQuery)
 
             setAmount(lastMonthData.docs.length)
-            setDiff(((lastMonthData.docs.length - prevMonthData.docs.length) / prevMonthData.docs.length) * 100)
+            setDiff(((lastMonthData.docs.length - prevMonthData.docs.length) / (prevMonthData.docs.length ? prevMonthData.docs.length : 1)) * 100)
         }
         fetchData()
     }, [])

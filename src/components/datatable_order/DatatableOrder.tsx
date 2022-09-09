@@ -4,16 +4,20 @@ import { useEffect, useState } from 'react'
 import { collection, deleteDoc, doc, onSnapshot } from 'firebase/firestore'
 import { db } from '../../firebase/firebase'
 import { Backdrop, Button, CircularProgress } from '@mui/material'
+import '../../style/pagination.scss'
 
+import ReactPaginate from 'react-paginate'
 import React, { FunctionComponent } from 'react'
 import Paper from '@mui/material/Paper'
 import InputBase from '@mui/material/InputBase'
 import Divider from '@mui/material/Divider'
 import IconButton from '@mui/material/IconButton'
 import SearchIcon from '@mui/icons-material/Search'
+import ConvertStOrder from '../ConvertStOrder/ConvertStOrder'
 
 const DatatableOrder = () => {
     const [data, setData] = useState([])
+    const [pageNumber, setPageNumber] = useState(0)
     const [loading, setLoading] = useState(false)
     const [query, setQuery] = useState('')
     const navigate = useNavigate()
@@ -76,44 +80,9 @@ const DatatableOrder = () => {
         }
     }
 
-    const handleEdit = (id: any) => {
-        navigate('/users/edit', { state: id })
-    }
-
     const handleChange = (event: React.ChangeEvent<HTMLInputElement>): void => {
         setQuery(event.target.value)
     }
-
-    const handleClick = (): void => {
-        // TODO: Clear the search input
-        console.log('clicked the clear icon...')
-        setQuery('')
-    }
-
-    const actionColumn = [
-        {
-            field: 'action',
-            headerName: 'Action',
-            width: 200,
-            renderCell: (params: any) => {
-                return (
-                    <div className="cellAction">
-                        <Link to={`/users/${params.row.id}`} style={{ textDecoration: 'none' }}>
-                            <div className="viewButton">View</div>
-                        </Link>
-
-                        <div className="viewButton" onClick={() => handleEdit(params.row.id)}>
-                            Edit
-                        </div>
-
-                        <div className="deleteButton" onClick={() => handleDelete(params.row.id)}>
-                            Delete
-                        </div>
-                    </div>
-                )
-            },
-        },
-    ]
 
     interface CartItemsState {
         id: string
@@ -129,6 +98,16 @@ const DatatableOrder = () => {
         const date = new Date(unixTime * 1000)
         // console.log(date.toLocaleDateString('en-US'))
         return date.toLocaleDateString('en-US')
+    }
+    // phan trang
+    const productPerPage = 8
+    const visitedPage = pageNumber * productPerPage
+    const displayPage = data.slice(visitedPage, visitedPage + productPerPage)
+
+    const pageCount = Math.ceil(data.length / productPerPage)
+
+    const changePage = ({ selected }: any) => {
+        setPageNumber(selected)
     }
 
     return (
@@ -175,7 +154,7 @@ const DatatableOrder = () => {
                         </thead>
                         <tbody>
                             {data &&
-                                data.map((item: any, index: number) => (
+                                displayPage.map((item: any, index: number) => (
                                     <tr key={index}>
                                         <th scope="row">{index + 1}</th>
                                         <td>{setDate(item.timeStamp.seconds)}</td>
@@ -198,7 +177,7 @@ const DatatableOrder = () => {
                                             <p>{item.name}</p>
                                         </td>
 
-                                        <td>{item.status}</td>
+                                        <td>{ConvertStOrder(item.status)}</td>
                                         <td className="d-flex ">
                                             <Link to={`/order/${item.id}`} style={{ textDecoration: 'none' }}>
                                                 <Button variant="contained" color="success">
@@ -214,6 +193,9 @@ const DatatableOrder = () => {
                                 ))}
                         </tbody>
                     </table>
+                    <div className="d-flex flex-row">
+                        <ReactPaginate pageCount={pageCount} onPageChange={changePage} previousLabel={'Prev'} nextLabel={'Next'} containerClassName=" paginationBttns " />
+                    </div>
                 </div>
             </div>
             {/* )} */}

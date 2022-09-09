@@ -10,6 +10,7 @@ import { Link, useNavigate } from 'react-router-dom'
 import { array } from 'yup'
 import { Grid } from '@mui/material'
 import Comment from '../../components/comment/Comment'
+import ConvertCategory from '../../components/ConvertCategory/ConvertCategory'
 
 const ProfileUser = () => {
     const [previewImg, setPreviewImg] = useState()
@@ -101,23 +102,23 @@ const ProfileUser = () => {
                                 <div className="details m-l-8 ">
                                     <h2 className="itemTitle">{data.title}</h2>
                                     <div className="detailItem">
-                                        <span className="itemKey">Category: </span>
-                                        <span className="itemValue">{data.category}</span>
+                                        <span className="itemKey t-color-secondary">Category: </span>
+                                        <span className="itemValue">{ConvertCategory(data.category)}</span>
                                     </div>
                                     <div className="detailItem">
-                                        <span className="itemKey">Specification: </span>
+                                        <span className="itemKey t-color-secondary">Specification: </span>
                                         <pre className="itemValue">{data.specification}</pre>
                                     </div>
                                     <div className="detailItem">
-                                        <span className="itemKey">Description: </span>
+                                        <span className="itemKey t-color-secondary">Description: </span>
                                         <pre className="itemValue white-space-initial">{data.description}</pre>
                                     </div>
                                     <div className="detailItem">
-                                        <span className="itemKey">Price: </span>
+                                        <span className="itemKey t-color-secondary">Price: </span>
                                         <span className="itemValue">{data.price}</span>
                                     </div>
                                     <div className="detailItem">
-                                        <span className="itemKey">Total: </span>
+                                        <span className="itemKey ">Total: </span>
                                         <span className="itemValue">{data.total}</span>
                                     </div>
                                 </div>

@@ -205,10 +205,14 @@ const NewProducts = () => {
                                             })}
                                         >
                                             <option value="">None</option>
-                                            <option value="PC">PC</option>
-                                            <option value="Điện thoại">Điện thoại</option>
-                                            <option value="Laptop">Laptop</option>
-                                            <option value="Chuột">Chuột</option>
+                                            <option value="camera">Camera</option>
+                                            <option value="phone">Điện thoại</option>
+                                            <option value="laptop">Laptop</option>
+                                            <option value="mouse">Chuột</option>
+                                            <option value="displaycard">Cart màn hình</option>
+                                            <option value="screen">Màn hình</option>
+                                            <option value="keyboard">Bàn phím</option>
+                                            <option value="harddrive">Ổ cứng</option>
                                         </select>
                                         {errors.category && <p className="messages">{errors.category.message}</p>}
                                     </div>

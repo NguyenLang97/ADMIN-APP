@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react'
-import { doc, setDoc, addDoc, collection, serverTimestamp, onSnapshot, getDoc } from 'firebase/firestore'
-import { Rating } from '@mui/material'
+import { doc, setDoc, addDoc, collection, serverTimestamp, onSnapshot, getDoc, updateDoc } from 'firebase/firestore'
+import { Button, Rating } from '@mui/material'
 import { useDispatch, useSelector } from 'react-redux'
 import { useParams } from 'react-router-dom'
 import { styled } from '@mui/material/styles'
@@ -56,7 +56,6 @@ const Comment = () => {
         // console.log(date.toLocaleDateString('en-US'))
         return date.toLocaleDateString('en-US')
     }
-    console.log({ data })
 
     // console.log({ ractingValue })
 
@@ -74,6 +73,36 @@ const Comment = () => {
     // console.log('1', typeof Math.floor(starAvg) == 'number' && Math.floor(starAvg) > 0)
 
     const rates = [1, 2, 3, 4, 5]
+    console.log('data', data)
+
+    const handleDelete = async (index: number) => {
+        if (data) {
+            data.commentUser.splice(index, 1)
+            try {
+                console.log('1aaa')
+
+                await updateDoc(doc(db, 'comment', productId as string), {
+                    commentUser: data.commentUser,
+                })
+            } catch (err) {
+                console.log(err)
+
+                // onmessage.error('Vui lòng xem lại số lượng trên hệ thống', 2)
+            }
+        }
+        const docRef = doc(db, 'comment', productId as string)
+        const docSnap = async () => {
+            await getDoc(docRef).then((docSnap) => {
+                if (docSnap.exists()) {
+                    setData({ ...docSnap.data() })
+                } else {
+                    console.log('No such document!')
+                }
+            })
+        }
+        docSnap()
+    }
+
     return (
         <div className="comment p-12">
             <div className=" d-flex align-items-center gap-5 py-3">
@@ -115,13 +144,16 @@ const Comment = () => {
                 <div className="comment__review w-100 p-4">
                     {data?.commentUser !== undefined ? (
                         data?.commentUser.map((item: CommentUserState, index: number) => (
-                            <div key={index} className="d-flex flex-column">
-                                <div className="comment__user-wrap d-flex">
-                                    <div className="comment__user review d-flex">
+                            <div key={index} className="d-flex flex-column mt-3">
+                                <div className="comment__user-wrap d-flex justify-content-between">
+                                    <div className="comment__user review d-flex justify-content-between">
                                         <img src={item.imgUser} className="comment__user-img rounded-circle" />
                                         <p className="comment__user-name m-l-8 m-b-4">{item.nameUser}</p>
                                         <p className="comment__feedback-date m-b-4">{setDate(item.date.seconds)}</p>
                                     </div>
+                                    <Button variant="outlined" color="error" onClick={() => handleDelete(index)}>
+                                        Xóa
+                                    </Button>
                                 </div>
                                 <Rating style={{ fontSize: 14 }} value={item.userRacting} disabled className="d-flex m-l-32 m-b-8" />
                                 <p className="comment__feedback-text p-4x">{item.commentTitle}</p>

@@ -5,7 +5,7 @@ import { Link, useNavigate } from 'react-router-dom'
 import { useEffect, useState } from 'react'
 import { collection, deleteDoc, doc, onSnapshot } from 'firebase/firestore'
 import { db } from '../../firebase/firebase'
-import { Backdrop, Button, CircularProgress } from '@mui/material'
+import { Backdrop, Button, CircularProgress, Divider, IconButton, InputBase, Paper } from '@mui/material'
 
 import SearchIcon from '@mui/icons-material/Search'
 import ClearIcon from '@mui/icons-material/Clear'
@@ -155,7 +155,7 @@ const Datatable = () => {
                                 }}
                             />
                         </FormControl>
-                    </div>
+                        </div>
                     <Link to="/users/new">
                         <Button variant="contained">Add New</Button>
                     </Link>

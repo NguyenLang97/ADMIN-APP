@@ -10,6 +10,7 @@ import { useNavigate } from 'react-router-dom'
 import { SubmitHandler, useForm } from 'react-hook-form'
 import { ref, uploadBytesResumable, getDownloadURL, UploadTask } from 'firebase/storage'
 import { Button } from '@mui/material'
+import ConvertCategory from '../../components/ConvertCategory/ConvertCategory'
 
 const EditUser = () => {
     let { state } = useLocation()
@@ -234,17 +235,21 @@ const EditUser = () => {
                                     <label>Category</label>
                                     <select
                                         id="category"
-                                        value={data.category}
+                                        value={ConvertCategory(data.category)}
                                         {...register('category', {
                                             required: 'Vui lòng nhập category',
                                             onChange: (e) => setData((prev) => ({ ...prev, category: e.target.value })),
                                         })}
                                     >
                                         <option value="">None</option>
-                                        <option value="PC">PC</option>
-                                        <option value="Điện thoại">Điện thoại</option>
-                                        <option value="Laptop">Laptop</option>
-                                        <option value="Chuột">Chuột</option>
+                                        <option value="camera">Camera</option>
+                                        <option value="phone">Điện thoại</option>
+                                        <option value="laptop">Laptop</option>
+                                        <option value="mouse">Chuột</option>
+                                        <option value="displaycard">Cart màn hình</option>
+                                        <option value="screen">Màn hình</option>
+                                        <option value="keyboard">Bàn phím</option>
+                                        <option value="harddrive">Ổ cứng</option>
                                     </select>
                                     {errors.category && <p className="messages">{errors.category.message}</p>}
                                 </div>
